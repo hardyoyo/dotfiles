@@ -1,7 +1,10 @@
 [user]
-	email = andrew@schwartzmeyer.com
-	name = Andrew Schwartzmeyer
+	email = pottingerhj@missouri.edu
+	name = Hardy Pottinger
+[pull]
+    rebase = true
 [core]
+    autocrlf = input
 	excludesFile = ~/.gitignore_global
 	abbrev = 9
 [alias]
@@ -19,6 +22,7 @@
 	l = log
 	lol = log --graph --pretty=oneline
 	m = merge
+	n = !git ls-files | xargs notes
 	nuke = !git clean -fdx && git submodule foreach git clean -fdx
 	p = pull
 	ps = push
@@ -37,9 +41,7 @@
 [apply]
 	ignoreWhitespace = change
 [color]
-	ui = auto
-[credential]
-	helper = cache --timeout 30000 # seconds
+	ui = always
 [diff]
 	tool = vimdiff
 	mnemonicPrefix = true
@@ -51,10 +53,16 @@
 	abbrevCommit = true
 	decorate = short
 [merge]
-	stat = true
-	tool = vimdiff
-[pull]
-	ff = only
+	keepbackups = false
+	tool = diffconflicts
+[credential]
+	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+[mergetool "diffconflicts"]
+	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+	trustExitCode = true
+	keepBackup = false
+[http]
+    sslVerify = false
 [push]
 	default = current
 [rebase]

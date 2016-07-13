@@ -1,3 +1,9 @@
+# Vagrant-DSpace configs should be opt-in
+config/*.yaml*
+config/*.sh*
+config/*.txt
+config/local.cfg*
+
 # Compiled source
 *.elc
 *.pyc

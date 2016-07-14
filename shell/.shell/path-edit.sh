@@ -12,7 +12,7 @@ path_front() {
     done
 }
 
-# function to take array of paths and them (cleanly) to the back
+# function to take array of paths and add them (cleanly) to the back
 path_back() {
     # no reverse here, last path given is added last (very end)
     for dir; do

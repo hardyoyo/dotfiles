@@ -1,93 +1,251 @@
-" Andrew Schwartzmeyer's vimrc file.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" The Best vimrc Ever
+" Tommy MacWilliam <tmacwilliam@cs.harvard.edu>
+"
+" Be sure to read the README!
+"
+" Shortcuts:
+"   ; maps to :
+"   ,a: ack from the current directory
+"   ,b: browse tags
+"   ,c: toggle comments
+"   ,C: toggle block comments
+"   ,e: open file in new tab
+"   ,g: ctags go to definition in new tab
+"   ,G: ctags go to definition in new buffer
+"   ,l: toggle NERDTree
+"   ,h: open a shell in a new tab
+"   ,k: syntax-check the current file
+"   ,m: toggle mouse support
+"   ,p: toggle paste mode
+"   ,o: open file
+"   ,s: split window
+"   ,t: new tab
+"   ,w: close tab
+"   kj: enter normal mode and save
+"   Ctrl+{h,j,k,l}: move among windows
+"   ii: operate on all text at current indent level
+"   ai: operate on all text plus one line up at current indent level
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" This must be first, because it changes other options as a side effect.
+" long live vim
+set encoding=utf-8
 set nocompatible
 
-" Download vim-plug if not already installed
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
+" vundle
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+
+" color schemes
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'tomasr/molokai'
+Plugin 'vim-scripts/Skittles-Dark'
+Plugin 'sickill/vim-monokai'
+Plugin 'hukl/Smyck-Color-Scheme'
+Plugin 'vim-scripts/wombat256.vim'
+Plugin 'jnurmine/Zenburn'
+
+" plugins
+Plugin 'idbrii/AsyncCommand'
+Plugin 'mileszs/ack.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-fugitive'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'tomtom/checksyntax_vim'
+Plugin 'vim-scripts/trailing-whitespace'
+Plugin 'vim-scripts/taglist.vim'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'michaeljsmith/vim-indent-object'
+Plugin 'gregsexton/gitv'
+Plugin 'bling/vim-airline'
+Plugin 'wincent/Command-T'
+Plugin 'scrooloose/syntastic'
+Plugin 'KabbAmine/zeavim.vim'
+Plugin 'itchyny/calendar.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'sotte/presenting.vim'
+Plugin 'yggdroot/indentline'
+
+" syntax files
+Plugin 'pangloss/vim-javascript'
+Plugin 'tpope/vim-markdown'
+Plugin 'voithos/vim-python-syntax'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'groenewege/vim-less'
+Plugin 'leafgarland/typescript-vim'
+
+call vundle#end()
+filetype plugin indent on
+
+" command-t config
+let g:CommandTTraverseSCM = 'pwd'
+
+" checksyntax config
+let g:checksyntax#auto_mode = 0
+
+" taglist config
+let g:Tlist_Use_Right_Window = 1
+
+" airline config
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+" coffeescript config
+hi link coffeeSpaceError NONE
+
+" use higher-contrast zenburn
+let g:zenburn_high_Contrast=1
+
+" syntax highlighting and auto-indentation
+syntax on
+filetype indent on
+filetype plugin on
+inoremap # X<C-H>#
+set ai
+set si
+set nu
+
+" omg folding is the worst
+set nofoldenable
+
+" omg automatic comment insertion is the worst
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" expand tabs to 4 spaces
+set shiftwidth=4
+set tabstop=4
+set smarttab
+set expandtab
+
+" faster tab navigation
+nnoremap <S-tab> :tabprevious<CR>
+nnoremap <tab> :tabnext<CR>
+
+" always show tab line to avoid annoying resize
+set showtabline=2
+
+" searching options
+set incsearch
+set ignorecase
+set smartcase
+
+" disable backups
+set nobackup
+set nowritebackup
+set noswapfile
+
+" disable annoying beep on errors
+set noerrorbells
+if has('autocmd')
+  autocmd GUIEnter * set vb t_vb=
 endif
 
-""" Plugins
-call plug#begin('~/.vim/plugged')
-Plug 'airblade/vim-gitgutter'                           " Git hunks
-Plug 'andschwa/vim-colors-solarized'                    " Best colors ever
-Plug 'easymotion/vim-easymotion'                        " Movements
-Plug 'EinfachToll/DidYouMean'                           " File guessing
-Plug 'elzr/vim-json'                                    " Better JSON
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'                                 " FZF
-Plug 'ledger/vim-ledger'                                " Ledger
-Plug 'majutsushi/tagbar'                                " Tagbar
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }      " Edits graph
-Plug 'ntpeters/vim-better-whitespace'                   " Whitespace
-Plug 'PProvost/vim-ps1'                                 " PowerShell
-Plug 'scrooloose/syntastic'                             " Syntax checker
-Plug 'tmux-plugins/vim-tmux'
-Plug 'tpope/vim-commentary'                             " Comments
-Plug 'tpope/vim-eunuch'                                 " UNIX commands
-Plug 'tpope/vim-fugitive'                               " Git interface
-Plug 'tpope/vim-repeat'                                 " Repeat for plugins
-Plug 'tpope/vim-rsi'                                    " Readline bindings
-Plug 'tpope/vim-scriptease'                             " VimL REPL
-Plug 'tpope/vim-sensible'                               " Sensible defaults
-Plug 'tpope/vim-sleuth'                                 " Adaptive indentation
-Plug 'tpope/vim-surround'                               " Surrounding
-Plug 'tpope/vim-unimpaired'                             " ][ mappings
-Plug 'tpope/vim-vinegar'                                " File explorer
-Plug 'vim-airline/vim-airline'                          " Status line
-Plug 'vim-airline/vim-airline-themes'                   " Status line themes
-call plug#end()
-
-""" Plugin configurations
-" appearance
-silent! colorscheme solarized
+" font options
 set background=dark
-let g:gitgutter_override_sign_column_highlight = 0
+set t_Co=256
+colorscheme jellybeans
 
-" disable concealing in JSON
-let g:vim_json_syntax_conceal = 0
+" keep at least 5 lines below the cursor
+set scrolloff=5
 
-" just use :StripWhitespace
-let g:better_whitespace_enabled = 0
+" window options
+set showmode
+set showcmd
+set ruler
+set ttyfast
+set backspace=indent,eol,start
+set laststatus=2
 
-" recognize all Markdown files
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-let g:markdown_fenced_languages = ['c', 'cpp', 'csharp=cs', 'bash=sh', 'json']
+" enable mouse support
+set mouse=a
 
-""" Other configurations
-set hidden      " multiple buffers
-set ignorecase  " ignore case in searches
-set linebreak   " wrap after words
-set smartcase   " match case once specified
-set spell       " always spell check
-set visualbell  " no sound
+" cursor
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-" configure wildmenu tab completion
-set wildmode=list:longest,full
-set wildignorecase
+" word wrapping
+set wrap
+set linebreak
+set nolist
 
-if has("persistent_undo")
-  set undodir=~/.vim/undodir/
-  silent call system('mkdir -p ' . &undodir)
-  set undofile
-endif
+" better tab completion on commands
+set wildmenu
+set wildmode=list:longest
+set wildignore+=*.pyc,__pycache__
 
-if has('mouse')
-  set mouse=a
-endif
+" close buffer when tab is closed
+set nohidden
 
-let mapleader = " "
+" ctags
+set tags=./tags,tags;
 
-" When editing a file, always jump to the last known cursor position.
-" Don't do it when the position is invalid or when inside an event handler
-" (happens when dropping a file on gvim).
-autocmd BufReadPost *
-  \ if line("'\"") >= 1 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
+" better moving between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
-" Load local configurations if available
-silent! source ~/.vim/local.vim
+" shortcuts to common commands
+let mapleader = ","
+nnoremap <leader>a :Ack
+nnoremap <leader>b :TlistToggle<CR>
+nnoremap <leader>c :TComment<CR>
+nnoremap <leader>C :TCommentBlock<CR>
+vnoremap <leader>c :TComment<CR>
+vnoremap <leader>C :TCommentBlock<CR>
+nnoremap <leader>e :tabnew<CR>:CommandT<CR>
+nnoremap <leader>g <C-w><C-]><C-w>T
+nnoremap <leader>G <C-]>
+nnoremap <leader>h :tabnew<CR>:ConqueTerm bash<CR>
+nnoremap <leader>l :NERDTreeTabsToggle<CR>
+nnoremap <leader>k :CheckSyntax<CR>
+nnoremap <leader>o :CommandT<CR>
+nnoremap <leader>p :set invpaste<CR>
+nnoremap <leader>t :tabnew<CR>
+nnoremap <leader>s :vsplit<CR>
+nnoremap <leader>w :tabclose<CR>
+
+" ; is better than :, and kj is better than ctrl-c
+nnoremap ; :
+
+" also autosave when going to insert mode
+inoremap kj <Esc>:w<CR>
+
+" more logical vertical navigation
+nnoremap <silent> k gk
+nnoremap <silent> j gj
+
+" make copy/pasting nice
+function! ToggleMouse()
+    if &mouse == 'a'
+        set mouse=r
+        set nonu
+    else
+        set mouse=a
+        set nu
+    endif
+endfunction
+nnoremap <leader>m :call ToggleMouse()<CR>
+
+" LogPad stuff
+
+let LogpadEnabled=1
+let LogpadInsert=0
+let LogpadLineBreak=0
+let LogpadIgnoreNotes = 1
+
+" set the title
+set title
+set titleold=""
+set titlestring=VIM:\ %F
+
+" Indentline config
+let g:indentLine_color_term = 239
+

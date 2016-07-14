@@ -8,5 +8,8 @@ set mark-symlinked-directories on
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 
-"\e[A":history-search-backward
-"\e[B":history-search-forward
+# search history coolness, courtesy of http://codeinthehole.com/writing/the-most-important-command-line-tip-incremental-history-searching-with-inputrc/
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\e[C": forward-char
+"\e[D": backward-char

@@ -1,22 +1,54 @@
 # this file is sourced by non-login interactive shells and ~/.bash_profile
 
-# use emacsclient for programs opening an editor
-VISUAL='e'
+# set the umask to something reasonable
+umask 002
+
+# let's use a visible bell
+set bell-style visible
+
+# let's use rbenv, shall we?
+eval "$(rbenv init -)"
+
+# let's use the bleeding-edge version of Ansible
+source $HOME/workspace/ansible/hacking/env-setup
+
+# and lets give the gnome keyring daemon what it wants
+# this doesn't appear to work at all, but I'll leave it here for giggles
+SSH_AUTH_SOCK=`ss -xl | grep -o '/run/user/1000/keyring-.*/ssh'`
+[ -z "$SSH_AUTH_SOCK" ] || export SSH_AUTH_SOCK
+
+# use vim for programs opening an editor
+VISUAL='vim'
 EDITOR="$VISUAL"
 
-# launch emacs --daemon and a new frame
-alias e='emacsclient --alternate-editor="" --create-frame'
+# always spin up vim with servername set to vim
+alias vim='vim --servername vim'
+alias vi='vim --servername vim'
+
+# set up java, maven, and ant
+# NOTE: no trailing slash on JAVA_HOME, *EVER*
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+export MAVEN3_HOME=/usr/share/maven
+export ANT_HOME=/usr/share/ant
 
 # path setup
 source ~/.shell/path-edit.sh
 path_front ~/bin /usr/local/sbin /usr/local/bin
-path_back /sbin /bin /usr/sbin /usr/bin
+path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin
+
+
+
+# workspace setup
+source ~/.shell/workspace.sh
 
 # run setup
 source ~/.shell/run.sh
 
 # show a fortune
-source ~/.shell/fortune.sh
+#source ~/.shell/fortune.sh
+
+# run ddate, because it's awesome
+ddate
 
 # cd options
 shopt -s autocd cdspell dirspell

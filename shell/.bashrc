@@ -82,8 +82,7 @@ GIT_PS1_SHOWUPSTREAM=auto
 
 set_prompt () {
     local last_command=$?
-    PS1=''
-
+    PS1='\u@\h:'
     # save after every command
     history -a
 

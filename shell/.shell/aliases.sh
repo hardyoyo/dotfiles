@@ -39,6 +39,7 @@ alias polipo-online="/usr/bin/curl -m 5 -d 'proxyOffline=false' http://localhost
 alias vpn="sudo openconnect -b https://anyconnect.missouri.edu --config=/home/pottingerhj/.config/openconnect/config"
 alias vpnoff="sudo killall openconnect"
 alias kill-vagrant-notify="kill $(ps aux | grep 8100 | grep -v grep | awk '{print $2}')"
+alias vim-init="vim +PluginInstall +qall -q /dev/null && cd $HOME/.vim/bundle/Command-T/ruby/command-t && ruby extconf.rb && make"
 
 # oracle stuff
 alias ostart='vboxmanage startvm "Oracle DB Developer VM" -type headless'

@@ -1,5 +1,9 @@
 # this file is sourced by non-login interactive shells and ~/.bash_profile
 
+# use git completion
+source /usr/local/etc/bash_completion.d/git-prompt.sh
+
+
 # use emacsclient for programs opening an editor
 VISUAL='e'
 EDITOR="$VISUAL"

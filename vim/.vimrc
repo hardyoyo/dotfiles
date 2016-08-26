@@ -43,7 +43,7 @@ call plug#end()
 
 """ Plugin configurations
 " appearance
-silent! colorscheme solarized
+silent! colorscheme elflord
 set background=dark
 let g:gitgutter_override_sign_column_highlight = 0
 
@@ -67,7 +67,7 @@ set visualbell  " no sound
 
 " configure wildmenu tab completion
 set wildmode=list:longest,full
-set wildignorecase
+"set wildignorecase
 
 if has("persistent_undo")
   set undodir=~/.vim/undodir/

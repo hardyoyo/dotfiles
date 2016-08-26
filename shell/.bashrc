@@ -4,12 +4,9 @@
 source /usr/local/etc/bash_completion.d/git-prompt.sh
 
 
-# use emacsclient for programs opening an editor
-VISUAL='e'
+# use vim for programs opening an editor
+VISUAL='vim'
 EDITOR="$VISUAL"
-
-# launch emacs --daemon and a new frame
-alias e='emacsclient --alternate-editor="" --create-frame'
 
 # path setup
 source ~/.shell/path-edit.sh
@@ -18,18 +15,6 @@ path_back /sbin /bin /usr/sbin /usr/bin
 
 # run setup
 source ~/.shell/run.sh
-
-# show a fortune
-source ~/.shell/fortune.sh
-
-# cd options
-shopt -s autocd cdspell dirspell
-
-# glob options
-shopt -s dotglob extglob globstar nocaseglob
-
-# job options
-shopt -s checkjobs huponexit
 
 # shell options
 shopt -s checkhash checkwinsize

@@ -7,29 +7,34 @@ umask 002
 set bell-style visible
 
 # let's use rbenv, shall we?
-eval "$(rbenv init -)"
+# skip on mac
+#eval "$(rbenv init -)"
 
 # let's use the bleeding-edge version of Ansible
-source $HOME/workspace/ansible/hacking/env-setup
+
+#source $HOME/workspace/ansible/hacking/env-setup
 
 # and lets give the gnome keyring daemon what it wants
 # this doesn't appear to work at all, but I'll leave it here for giggles
-SSH_AUTH_SOCK=`ss -xl | grep -o '/run/user/1000/keyring-.*/ssh'`
-[ -z "$SSH_AUTH_SOCK" ] || export SSH_AUTH_SOCK
+# does not work on mac
+#SSH_AUTH_SOCK=`ssh -xl | grep -o '/run/user/1000/keyring-.*/ssh'`
+#[ -z "$SSH_AUTH_SOCK" ] || export SSH_AUTH_SOCK
 
 # use vim for programs opening an editor
 VISUAL='vim'
 EDITOR="$VISUAL"
 
-# always spin up vim with servername set to vim
-alias vim='vim --servername vim'
-alias vi='vim --servername vim'
+# skip on mac
+# on linux, always spin up vim with servername set to vim
+#alias vim='vim --servername vim'
+#alias vi='vim --servername vim'
 
 # set up java, maven, and ant
 # NOTE: no trailing slash on JAVA_HOME, *EVER*
-export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
-export MAVEN3_HOME=/usr/share/maven
-export ANT_HOME=/usr/share/ant
+# skip on mac
+#export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+#export MAVEN3_HOME=/usr/share/maven
+#export ANT_HOME=/usr/share/ant
 
 # path setup
 source ~/.shell/path-edit.sh
@@ -45,19 +50,23 @@ source ~/.shell/workspace.sh
 source ~/.shell/run.sh
 
 # show a fortune
-#source ~/.shell/fortune.sh
-
+source ~/.shell/fortune.sh
+echo "--"
 # run ddate, because it's awesome
 ddate
-
+echo
 # cd options
-shopt -s autocd cdspell dirspell
+#shopt -s autocd cdspell dirspell
+# autocd and dirspell don't work on mac
+shopt -s cdspell
 
 # glob options
-shopt -s dotglob extglob globstar nocaseglob
+# skip on mac
+#shopt -s dotglob extglob globstar nocaseglob
 
 # job options
-shopt -s checkjobs huponexit
+# skip on mac
+#shopt -s checkjobs huponexit
 
 # shell options
 shopt -s checkhash checkwinsize
@@ -71,6 +80,10 @@ HISTSIZE=
 HISTFILESIZE=
 # Use separate history file to avoid truncation
 HISTFILE=~/.bash_history_file
+
+# only on mac
+# use git completion
+source /usr/local/etc/bash_completion.d/git-prompt.sh
 
 # prompt setup
 PROMPT_DIRTRIM=2

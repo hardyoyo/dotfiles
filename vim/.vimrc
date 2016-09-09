@@ -48,7 +48,7 @@ Plugin 'vim-scripts/wombat256.vim'
 Plugin 'jnurmine/Zenburn'
 
 " plugins
-Plugin 'idbrii/AsyncCommand'
+"Plugin 'idbrii/AsyncCommand'
 Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
@@ -57,7 +57,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tomtom/tcomment_vim'
-Plugin 'tomtom/checksyntax_vim'
+"Plugin 'tomtom/checksyntax_vim'
 Plugin 'vim-scripts/trailing-whitespace'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'terryma/vim-multiple-cursors'
@@ -88,7 +88,7 @@ filetype plugin indent on
 let g:CommandTTraverseSCM = 'pwd'
 
 " checksyntax config
-let g:checksyntax#auto_mode = 0
+"let g:checksyntax#auto_mode = 0
 
 " taglist config
 let g:Tlist_Use_Right_Window = 1
@@ -205,7 +205,7 @@ nnoremap <leader>g <C-w><C-]><C-w>T
 nnoremap <leader>G <C-]>
 nnoremap <leader>h :tabnew<CR>:ConqueTerm bash<CR>
 nnoremap <leader>l :NERDTreeTabsToggle<CR>
-nnoremap <leader>k :CheckSyntax<CR>
+"nnoremap <leader>k :CheckSyntax<CR>
 nnoremap <leader>o :CommandT<CR>
 nnoremap <leader>p :set invpaste<CR>
 nnoremap <leader>t :tabnew<CR>

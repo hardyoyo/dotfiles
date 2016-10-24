@@ -83,7 +83,7 @@ HISTFILE=~/.bash_history_file
 
 # only on mac
 # use git completion
-source /usr/local/etc/bash_completion.d/git-prompt.sh
+#source /usr/local/etc/bash_completion.d/git-prompt.sh
 
 # prompt setup
 PROMPT_DIRTRIM=2

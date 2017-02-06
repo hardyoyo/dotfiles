@@ -24,11 +24,17 @@ esac
 #SSH_AUTH_SOCK=`ssh -xl | grep -o '/run/user/1000/keyring-.*/ssh'`
 #[ -z "$SSH_AUTH_SOCK" ] || export SSH_AUTH_SOCK
 
+# set gopath
+export GOPATH=~/gocode/
+
 # use vim for programs opening an editor
 VISUAL='vim'
 EDITOR="$VISUAL"
 
-# skip on mac and windows
+# set ask_sudo_password for serverspec testing
+ASK_SUDO_PASSWORD=1
+
+# skip on mac and Windows
 # on linux, always spin up vim with servername set to vim
 case "$OSTYPE" in
   darwin*)  ;; 
@@ -47,7 +53,7 @@ esac
 
 # path setup
 source ~/.shell/path-edit.sh
-path_front ~/bin /usr/local/sbin /usr/local/bin
+path_front ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin
 
 
@@ -74,12 +80,13 @@ fi
 shopt -s cdspell
 
 # glob options
-# skip on mac
-#shopt -s dotglob extglob globstar nocaseglob
-
-# job options
-# skip on mac
-#shopt -s checkjobs huponexit
+# skip on mac and Windows
+case "$OSTYPE" in
+  darwin*)  ;; 
+  msys*)    ;;
+  *)		shopt -s dotglob extglob globstar nocaseglob
+            shopt -s checkjobs huponexit
+            ;;
 
 # shell options
 shopt -s checkhash checkwinsize

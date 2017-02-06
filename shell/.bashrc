@@ -7,8 +7,12 @@ umask 002
 set bell-style visible
 
 # let's use rbenv, shall we?
-# skip on mac
-#eval "$(rbenv init -)"
+# skip on mac and Windows
+case "$OSTYPE" in
+  darwin*)  ;; 
+  msys*)    ;;
+  *)		eval "$(rbenv init -)";;
+esac
 
 # let's use the bleeding-edge version of Ansible
 
@@ -24,10 +28,15 @@ set bell-style visible
 VISUAL='vim'
 EDITOR="$VISUAL"
 
-# skip on mac
+# skip on mac and windows
 # on linux, always spin up vim with servername set to vim
-#alias vim='vim --servername vim'
-#alias vi='vim --servername vim'
+case "$OSTYPE" in
+  darwin*)  ;; 
+  msys*)    ;;
+  *)		alias vim='vim --servername vim'
+			alias vi='vim --servername vim'
+			;;
+esac
 
 # set up java, maven, and ant
 # NOTE: no trailing slash on JAVA_HOME, *EVER*
@@ -49,12 +58,16 @@ source ~/.shell/workspace.sh
 # run setup
 source ~/.shell/run.sh
 
-# show a fortune
-source ~/.shell/fortune.sh
-echo "--"
-# run ddate, because it's awesome
-ddate
-echo
+# only run this for interactive shells, skip otherwise
+if [[ -v PS1 ]]; then
+    # show a fortune
+    source ~/.shell/fortune.sh
+    echo "--"
+    # run ddate, because it's awesome
+    ddate
+    echo
+fi
+
 # cd options
 #shopt -s autocd cdspell dirspell
 # autocd and dirspell don't work on mac

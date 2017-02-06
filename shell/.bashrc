@@ -77,16 +77,17 @@ fi
 # cd options
 #shopt -s autocd cdspell dirspell
 # autocd and dirspell don't work on mac
-shopt -s cdspell
 
 # glob options
 # skip on mac and Windows
 case "$OSTYPE" in
   darwin*)  ;; 
   msys*)    ;;
-  *)		shopt -s dotglob extglob globstar nocaseglob
+  *)		shopt -s cdspell
+            shopt -s dotglob extglob globstar nocaseglob
             shopt -s checkjobs huponexit
             ;;
+esac
 
 # shell options
 shopt -s checkhash checkwinsize

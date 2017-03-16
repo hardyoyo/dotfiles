@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# set up Vundle plugin manager for vim
+
+cd ~/.vim/bundle && git clone https://github.com/VundleVim/Vundle.vim.git Vundle.vim

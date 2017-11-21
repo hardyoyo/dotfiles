@@ -12,6 +12,6 @@ cd ~/dspace-src && git checkout ucla-vsim-6_x
 mkdir ~/workspace
 cd ~/workspace
 ln -s ~/dspace-src dspace
-ln -s ~/dspace-src/dspace/modules/xmlui-mirage2 mirage2
+ln -s ~/dspace-src/dspace/modules/xmlui-mirage2/src/main/webapp/themes/Mirage2 mirage2
 ln -s ~/dspace-src/dspace/modules/xmlui/
 ln -s ~/dspace-src/dspace/modules/xmlui/src/main/webapp/i18n i18n

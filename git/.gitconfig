@@ -41,7 +41,7 @@
 [apply]
 	ignoreWhitespace = change
 [color]
-	ui = always
+	ui = auto
 [diff]
 	tool = vimdiff
 	mnemonicPrefix = true
@@ -74,3 +74,5 @@
 	autoUpdate = true
 [include]
 	path = ~/.gitconfig_local
+[init]
+	templatedir = ~/.git_template

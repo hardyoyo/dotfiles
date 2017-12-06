@@ -53,7 +53,7 @@ esac
 
 # path setup
 source ~/.shell/path-edit.sh
-path_front ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin
+path_front ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin
 
 
@@ -105,6 +105,9 @@ HISTFILE=~/.bash_history_file
 # only on mac
 # use git completion
 #source /usr/local/etc/bash_completion.d/git-prompt.sh
+
+# source my own bash_completeions, plz
+source ~/.bash_completion
 
 # prompt setup
 PROMPT_DIRTRIM=2
@@ -195,3 +198,7 @@ stty -ixon
 if [[ -r ~/.shell_local.sh ]]; then
     source ~/.shell_local.sh
 fi
+
+# commented out for troubleshooting purposes
+# added by travis gem
+#[ -f /home/hpottinger/.travis/travis.sh ] && source /home/hpottinger/.travis/travis.sh

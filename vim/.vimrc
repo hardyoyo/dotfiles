@@ -71,6 +71,7 @@ Plugin 'itchyny/calendar.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'sotte/presenting.vim'
 Plugin 'yggdroot/indentline'
+Plugin 'ervandew/supertab'
 
 " syntax files
 Plugin 'pangloss/vim-javascript'

@@ -1,0 +1,8 @@
+#!/bin/sh
+### lolcommits hook (begin) ###
+if [ ! -d "$GIT_DIR/rebase-merge" ]; then
+export LANG="en_US.UTF-8"
+export PATH="/usr/bin:/usr/local/bin:$PATH"
+lolcommits --capture
+fi
+###  lolcommits hook (end)  ###

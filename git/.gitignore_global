@@ -3,6 +3,7 @@ config/*.yaml*
 config/*.sh*
 config/*.txt
 config/local.cfg*
+config/*
 
 # Compiled source
 *.elc

@@ -21,8 +21,10 @@ set bell-style visible
 #[ -z "$SSH_AUTH_SOCK" ] || export SSH_AUTH_SOCK
 
 # use vim for programs opening an editor
-VISUAL='vim'
-EDITOR="$VISUAL"
+export VISUAL='/usr/local/bin/vim'
+export EDITOR="$VISUAL"
+
+export ASK_SUDO_PASSWORD=yes
 
 # skip on mac
 # on linux, always spin up vim with servername set to vim
@@ -41,7 +43,8 @@ source ~/.shell/path-edit.sh
 path_front ~/bin /usr/local/sbin /usr/local/bin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin
 
-
+#git Homebrew access to git without the annoying throttle
+export HOMEBREW_GITHUB_API_TOKEN="db38ec7231f0e18c538f5d42d6516f2279124673"
 
 # workspace setup
 source ~/.shell/workspace.sh
@@ -84,6 +87,13 @@ HISTFILE=~/.bash_history_file
 # only on mac
 # use git completion
 source /usr/local/etc/bash_completion.d/git-prompt.sh
+source /usr/local/etc/bash_completion.d/git-completion.bash
+
+# grab the rest of the Brew completion files
+if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+  . $(brew --prefix)/share/bash-completion/bash_completion
+fi
+
 
 # prompt setup
 PROMPT_DIRTRIM=2
@@ -174,3 +184,8 @@ stty -ixon
 if [[ -r ~/.shell_local.sh ]]; then
     source ~/.shell_local.sh
 fi
+
+# added by travis gem
+[ -f /Users/hpottinger/.travis/travis.sh ] && source /Users/hpottinger/.travis/travis.sh
+
+export PATH="$HOME/.yarn/bin:$PATH"

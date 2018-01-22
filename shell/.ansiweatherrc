@@ -1,0 +1,20 @@
+location:columbia, MO
+units:imperial
+show_daylight:true
+show_wind:true
+show_humidity:false
+show_pressure:false
+
+ansi:false
+symbols:true
+
+# Icons
+sun:sunny
+moon:clear
+clouds:cloudy
+rain:${color yellow}rain${color gray}
+fog:f o g
+mist:m i s t
+haze:h a z e
+snow:${color yellow}snow${color gray}
+thunderstorm:${color red}storms${color gray}

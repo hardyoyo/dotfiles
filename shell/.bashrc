@@ -6,14 +6,6 @@ umask 002
 # let's use a visible bell
 set bell-style visible
 
-# let's use rbenv, shall we?
-# skip on mac and Windows
-case "$OSTYPE" in
-  darwin*)  ;; 
-  msys*)    ;;
-  *)		eval "$(rbenv init -)";;
-esac
-
 # let's use the bleeding-edge version of Ansible
 
 #source $HOME/workspace/ansible/hacking/env-setup

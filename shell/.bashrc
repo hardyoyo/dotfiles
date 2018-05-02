@@ -8,7 +8,7 @@ set bell-style visible
 
 # let's use rbenv, shall we?
 # skip on mac
-#eval "$(rbenv init -)"
+eval "$(rbenv init -)"
 
 # let's use the bleeding-edge version of Ansible
 
@@ -40,7 +40,7 @@ export ASK_SUDO_PASSWORD=yes
 
 # path setup
 source ~/.shell/path-edit.sh
-path_front ~/bin /usr/local/sbin /usr/local/bin
+path_front ~/bin /usr/local/sbin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin
 
 #git Homebrew access to git without the annoying throttle

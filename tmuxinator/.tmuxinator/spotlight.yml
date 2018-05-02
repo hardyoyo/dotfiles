@@ -1,7 +1,7 @@
 # ~/.tmuxinator/spotlight.yml
 
 name: spotlight
-root: ~/workspace/spotlight-testing
+root: ~/workspace/spotlight-testing/spotlight15
 pre_window:
   # - export FITS_HOME=/usr/local/Cellar/fits/1.2.1
 windows:
@@ -13,7 +13,9 @@ windows:
   - code:
       layout: main-vertical
       panes:
-        - echo "run vim if you don't know what else to do"
+        - echo "If this is the first run of spotlight, don't forget to run the following:"
+        - echo "bin/rake spotlight:initialize"
+        - echo "Otherwise, get to work. Try vim."
 
 #  - test_servers:
 #      layout: main-vertical

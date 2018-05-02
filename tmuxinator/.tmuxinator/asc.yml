@@ -1,7 +1,7 @@
 # ~/.tmuxinator/mahonia.yml
 
 name: hyrax
-root: ~/workspace/advanced-samvera-camp/hyrax
+root: ~/workspace/camping
 pre_window:
   - export FITS_HOME=/usr/local/Cellar/fits/1.2.1
 windows:
@@ -11,6 +11,7 @@ windows:
         - bin/rails server
         - fcrepo_wrapper
         - solr_wrapper
+        - redis-server
   - code:
       layout: main-vertical
       panes:

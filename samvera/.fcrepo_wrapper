@@ -1,0 +1,4 @@
+version: 4.7.5
+download_dir: /Users/hpottinger/Downloads/
+url: https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.7.5/fcrepo-webapp-4.7.5-jetty-console.jar
+validate: false

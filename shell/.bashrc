@@ -53,6 +53,7 @@ esac
 
 # path setup
 source ~/.shell/path-edit.sh
+path_front ~/.rbenv/plugins/ruby-build/bin
 path_front ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin
 

@@ -7,6 +7,7 @@
     autocrlf = input
 	excludesFile = ~/.gitignore_global
 	abbrev = 9
+	editor = vim
 [alias]
 	a = add
 	b = branch

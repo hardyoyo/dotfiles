@@ -13,8 +13,8 @@ sun:sunny
 moon:clear
 clouds:cloudy
 rain:${color yellow}rain${color gray}
-fog:f o g
-mist:m i s t
-haze:h a z e
+fog:fog
+mist:mist
+haze:haze
 snow:${color yellow}snow${color gray}
 thunderstorm:${color red}storms${color gray}

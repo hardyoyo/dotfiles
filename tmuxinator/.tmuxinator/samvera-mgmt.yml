@@ -2,7 +2,6 @@
 
 name: samvera-mgmt
 root: ~/workspace/samvera-mgmt
-pre_window: rvm use ruby-2.4.2
 windows:
   - dev_servers:
       layout: main-vertical

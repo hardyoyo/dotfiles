@@ -1,4 +1,4 @@
 version: 6.2.2
-download_dir: /Users/hpottinger/Downloads/
+download_dir: /home/hpottinger/Downloads/
 url: http://archive.apache.org/dist/lucene/solr/6.6.2/solr-6.6.2.zip
 validate: false

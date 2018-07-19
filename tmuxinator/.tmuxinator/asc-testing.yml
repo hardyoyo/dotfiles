@@ -1,0 +1,25 @@
+# ~/.tmuxinator/mahonia.yml
+
+name: hyrax
+root: ~/workspace/camping
+pre_window:
+  - export FITS_HOME=/usr/local/Cellar/fits/1.2.1
+windows:
+  - test_servers:
+      layout: main-vertical
+      panes:
+        - rails hydra:test_server
+  - code:
+      layout: main-vertical
+      panes:
+        - echo "run vim if you don't know what else to do"
+
+#  - test_servers:
+#      layout: main-vertical
+#      panes:
+#        - fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
+#        - rm -rf tmp/solr-test && bundle exec solr_wrapper --config config/solr_wrapper_test.yml
+#  - sidekiq:
+#      layout: main-vertical
+#      panes:
+#        - bundle exec sidekiq

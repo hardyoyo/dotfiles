@@ -38,6 +38,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
+Bundle 'sonph/onehalf', {'rtp': 'vim/'}
+
 " color schemes
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'tomasr/molokai'
@@ -96,6 +98,7 @@ let g:Tlist_Use_Right_Window = 1
 " airline config
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='onehalfdark'
 
 " coffeescript config
 hi link coffeeSpaceError NONE
@@ -150,7 +153,7 @@ endif
 " font options
 set background=dark
 set t_Co=256
-colorscheme jellybeans
+colorscheme onehalflight
 
 " keep at least 5 lines below the cursor
 set scrolloff=5

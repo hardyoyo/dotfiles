@@ -1,0 +1,11 @@
+# ~/.tmuxinator/dev-vagrant-demo.yml
+
+name: dev-vagrant-demo
+root: ~/workspace/dev-vagrant-demo
+windows:
+  - dev_vagrant-up:
+      layout: main-vertical
+      panes:
+        - vagrant up
+        - asciinema play 183267.cast
+

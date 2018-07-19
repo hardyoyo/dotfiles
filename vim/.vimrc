@@ -72,6 +72,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'sotte/presenting.vim'
 Plugin 'yggdroot/indentline'
 Plugin 'ervandew/supertab'
+Plugin 'chrisbra/csv.vim'
 
 " syntax files
 Plugin 'pangloss/vim-javascript'
@@ -151,7 +152,7 @@ endif
 " font options
 set background=dark
 set t_Co=256
-colorscheme jellybeans
+colorscheme desert
 
 " keep at least 5 lines below the cursor
 set scrolloff=5
@@ -164,8 +165,8 @@ set ttyfast
 set backspace=indent,eol,start
 set laststatus=2
 
-" enable mouse support
-set mouse=a
+" disable mouse support
+set mouse=
 
 " cursor
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"

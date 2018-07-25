@@ -1,7 +1,7 @@
-# ~/.tmuxinator/samvera-mgmt.yml
+# ~/.tmuxinator/californica.yml
 
-name: samvera-mgmt
-root: ~/workspace/samvera-mgmt
+name: californica
+root: ~/workspace/californica
 windows:
   - dev_servers:
       layout: main-vertical
@@ -12,7 +12,7 @@ windows:
   - code:
       layout: main-vertical
       panes:
-        - echo "run vim . if you don't know what else to do"
+        - "### run vim . if you don't know what else to do"
 
 #  - test_servers:
 #      layout: main-vertical

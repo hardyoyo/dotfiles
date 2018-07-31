@@ -1,5 +1,4 @@
 # ~/.tmuxinator/californica.yml
-
 name: californica
 root: ~/workspace/californica
 windows:
@@ -9,17 +8,17 @@ windows:
         - rails s
         - fcrepo_wrapper
         - solr_wrapper
+  - test_servers:
+     layout: main-vertical
+     panes:
+       - fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
+       - rm -rf tmp/solr-test && bundle exec solr_wrapper --config config/solr_wrapper_test.yml
+  - sidekiq:
+     layout: main-vertical
+     panes:
+       - bundle exec sidekiq
   - code:
-      layout: main-vertical
-      panes:
-        - "### run vim . if you don't know what else to do"
+     layout: main-vertical
+     panes:
+       - "### run vim . if you don't know what else to do"
 
-#  - test_servers:
-#      layout: main-vertical
-#      panes:
-#        - fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
-#        - rm -rf tmp/solr-test && bundle exec solr_wrapper --config config/solr_wrapper_test.yml
-#  - sidekiq:
-#      layout: main-vertical
-#      panes:
-#        - bundle exec sidekiq

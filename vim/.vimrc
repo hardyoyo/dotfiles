@@ -92,6 +92,9 @@ let g:CommandTTraverseSCM = 'pwd'
 " checksyntax config
 "let g:checksyntax#auto_mode = 0
 
+" I kinda need to see the syntax
+let g:markdown_syntax_conceal = 0
+
 " taglist config
 let g:Tlist_Use_Right_Window = 1
 

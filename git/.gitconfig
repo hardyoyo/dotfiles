@@ -22,7 +22,7 @@
 	hc = help config
 	l = log
 	lol = log --graph --pretty=oneline
-    lolz = log --pretty=format:'%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset' --graph
+ 	lolz = log --pretty=format:'%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset' --graph
 	m = merge
 	n = !git ls-files | xargs notes
 	nuke = !git clean -fdx && git submodule foreach git clean -fdx

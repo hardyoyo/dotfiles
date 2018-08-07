@@ -13,6 +13,7 @@ windows:
      panes:
        - fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
        - rm -rf tmp/solr-test && bundle exec solr_wrapper --config config/solr_wrapper_test.yml
+       - bundle exec spring server
   - sidekiq:
      layout: main-vertical
      panes:
@@ -20,5 +21,5 @@ windows:
   - code:
      layout: main-vertical
      panes:
-       - "### run vim . if you don't know what else to do"
+       - "### run atom . if you don't know what else to do"
 

@@ -12,9 +12,9 @@ symbols:true
 sun:sunny
 moon:clear
 clouds:cloudy
-rain:${color yellow}rain${color gray}
+rain:${color DeepSkyBlue}rain${color white}
 fog:fog
 mist:mist
 haze:haze
-snow:${color yellow}snow${color gray}
-thunderstorm:${color red}storms${color gray}
+snow:${color DeepSkyBlue}snow${color white}
+thunderstorm:${color red}storms${color white}

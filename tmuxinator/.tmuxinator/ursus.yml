@@ -1,0 +1,18 @@
+# ~/.tmuxinator/ursus.yml
+name: ursus
+root: ~/workspace/ursus
+windows:
+  - dev_servers:
+      layout: main-vertical
+      panes:
+        - rails s
+        - cd ~/workspace/californica && solr_wrapper
+  - test_servers:
+     layout: main-vertical
+     panes:
+       - cd ~/workspace/californica && rm -rf tmp/solr-test && bundle exec solr_wrapper --config config/solr_wrapper_test.yml
+  - code:
+     layout: main-vertical
+     panes:
+       - "### run atom . if you don't know what else to do"
+

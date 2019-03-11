@@ -8,6 +8,7 @@
 	excludesFile = ~/.gitignore_global
 	abbrev = 9
 	editor = vim
+	trustctime = false
 [alias]
 	a = add
 	b = branch
@@ -56,11 +57,15 @@
 	decorate = short
 [merge]
 	keepbackups = false
-	tool = diffconflicts
+	tool = meld
 [credential]
 	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+[mergetool "meld"]
+    cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+	trustExitCode = true
+    keepBackup = false
 [mergetool "diffconflicts"]
-	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+	cmd = vim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 	trustExitCode = true
 	keepBackup = false
 [http]
@@ -78,3 +83,5 @@
 	path = ~/.gitconfig_local
 [init]
 	templatedir = ~/.git_template
+[mergetool]
+	trustExitCode = true

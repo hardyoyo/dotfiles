@@ -42,6 +42,29 @@ alias kill-vagrant-notify="kill $(ps aux | grep 8100 | grep -v grep | awk '{prin
 alias vim-init="vim +PluginInstall +qall -q /dev/null && cd $HOME/.vim/bundle/Command-T/ruby/command-t && ruby extconf.rb && make"
 alias be='bundle exec'
 
+# DSpace stuff
+alias dspace.fetchupstreamdspace="cd $HOME/workspace/dspace && git config --add remote.upstream-dspace.fetch +refs/pull/*/head:refs/remotes/upstream-dspace/pr/*"
+alias dspace.fetchupstreamucla="cd $HOME/workspace/dspace && git config --add remote.upstream-ucla.fetch +refs/pull/*/head:refs/remotes/upstream-ucla/pr/*"
+alias dspace.ctags="cd $HOME/workspace/dspace && ctags -R $HOME/workspace/dspace -f $HOME/workspace/dspace/tags --exclude *target*"
+
+# DSpace docker-dev aliases
+alias dsd.up="export DPROJ=d6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} up -d"
+alias dsd.start="export DPROJ=d6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} start -d"
+alias dsd.stop="export DPROJ=d6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} stop"
+alias dsd.down="export DPROJ=d6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} down"
+
+# VSim docker-dev aliases
+alias vsimd.up="export DPROJ=v6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} up -d"
+alias vsimd.start="export DPROJ=v6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} start -d"
+alias vsimd.stop="export DPROJ=v6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} stop"
+alias vsimd.down="export DPROJ=v6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} down"
+alias vsimd.logs="export DPROJ=v6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} logs -f"
+alias vsimd.home="cd $HOME/workspace/dspace"
+alias vsimd.mvn="cd $HOME/workspace/dspace && mvn clean package -Dmirage2.on=true -P'!dspace-jspui,!dspace-rdf,!dspace-sword'"
+alias vsimd.mvntest="cd $HOME/workspace/dspace && mvn test -Dmaven.test.skip=false"
+alias vsimd.ant="export DPROJ=v6 && cd $HOME/workspace/dspace-docker-dev && docker exec -w /dspace-src/dspace/target/dspace-installer ${DPROJ}_dspace_1 ant update clean_backups"
+alias vsimd.restart-tomcat="export DPROJ=v6 && cd $HOME/workspace/dspace-docker-dev && docker-compose -p ${DPROJ} restart"
+
 # oracle stuff
 alias ostart='vboxmanage startvm "Oracle DB Developer VM" -type headless'
 alias oshut='vboxmanage controlvm "Oracle DB Developer VM" savestate'

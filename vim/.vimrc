@@ -73,6 +73,7 @@ Plugin 'sotte/presenting.vim'
 Plugin 'yggdroot/indentline'
 Plugin 'ervandew/supertab'
 Plugin 'chrisbra/csv.vim'
+Plugin 'whiteinge/diffconflicts'
 
 " syntax files
 Plugin 'pangloss/vim-javascript'

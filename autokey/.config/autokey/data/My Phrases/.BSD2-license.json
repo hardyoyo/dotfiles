@@ -1,19 +1,18 @@
 {
-    "type": "script",
-    "description": "Insert Date",
-    "store": {},
+    "type": "phrase",
+    "description": "BSD2-license",
     "modes": [
         1
     ],
-    "usageCount": 11,
+    "usageCount": 0,
     "prompt": false,
     "omitTrigger": false,
+    "matchCase": false,
     "showInTrayMenu": false,
     "abbreviation": {
         "abbreviations": [
-            "-date-",
-            "-today-",
-            "-now-"
+            "-bsd2-",
+            "-bsd-"
         ],
         "backspace": true,
         "ignoreCase": false,
@@ -28,5 +27,6 @@
     "filter": {
         "regex": null,
         "isRecursive": false
-    }
+    },
+    "sendMode": "<ctrl>+v"
 }

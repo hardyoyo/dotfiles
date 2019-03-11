@@ -27,6 +27,11 @@ esac
 # set gopath
 export GOPATH=~/gocode/
 
+# set up DSpace docker-compose stuff
+export DSPACE_SRC=$HOME/workspace/dspace
+export DSPACE_VER=dspace-6_x-jdk8-test
+export DPROJ=v6
+
 # use vim for programs opening an editor
 VISUAL='vim'
 EDITOR="$VISUAL"
@@ -214,7 +219,8 @@ alias dockercleani='printf "\n>>> Deleting untagged images\n\n" && docker rmi $(
 # Delete all stopped containers and untagged images.
 alias dockerclean='dockercleanc || true && dockercleani'
 
-
+# run the gitpitch desktop docker image, with the current folder mounted for slides
+alias gitpitch='docker run -it -v $(pwd):/repo -p 9000:9000 gitpitch/desktop:pro'
 
 # commented out for troubleshooting purposes
 # added by travis gem
@@ -223,3 +229,5 @@ alias dockerclean='dockercleanc || true && dockercleani'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# export AWS_PROFILE=uclalibrary

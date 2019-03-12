@@ -73,3 +73,6 @@ export LD_LIBRARY_PATH=/usr/local/oracle:${LD_LIBRARY_PATH}
 export PATH=/usr/local/oracle:${PATH}
 export SQLPATH=/usr/local/oracle:${SQLPATH}
 export NLS_LANG=AMERICAN_AMERICA.UTF8
+
+# i3wm stuff
+alias make-screen-res-readable='xrandr --output eDP-1 --mode 1920x1080' 

@@ -24,6 +24,16 @@ esac
 #SSH_AUTH_SOCK=`ssh -xl | grep -o '/run/user/1000/keyring-.*/ssh'`
 #[ -z "$SSH_AUTH_SOCK" ] || export SSH_AUTH_SOCK
 
+# trying again
+
+if [ -n "$DESKTOP_SESSION" ];then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+fi
+
+
+
+
 # set gopath
 export GOPATH=~/gocode/
 

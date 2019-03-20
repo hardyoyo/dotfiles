@@ -1,0 +1,8 @@
+Story Point Cheat Sheet:
+hint: Fibonacci Sequence
+1 = an hour or so
+2 = half a day
+3 = a day
+5 = two or three days
+8 = a week
+13 = too big, split it up

@@ -8,7 +8,7 @@ M=$(xrandr --listactivemonitors | head -n1)
 NM=""${M: -1}""
 
 # always set the resolution of the embedded notebook display to something readable
-xrandr --output eDP-1 --mode 1920x1080
+xrandr --output eDP-1 --mode 2560x1440 --dpi 96
 
 # conditional setup depending on how many monitors are present
 # scenario 1: 3 or more monitors, we must be home
@@ -18,6 +18,14 @@ then
     # WE ARE HOME, DO THE RIGHT THING
     notify-send 'More than two monitors present, assuming we are home...'
 
+    # set the DPI of all the monitors
+    xrandr --dpi 96
+
+    # set the resolutions of all the monitors to what is comfortable on my desk
+    xrandr --output HDMI-2 --mode 1280x1024 --dpi 96
+    xrandr --output eDP-1 --mode 1600x900 --dpi 96
+    xrandr --output DP-1 --mode 3840x2400 --dpi 96 --scale 2x2
+
     # set up the relative positioning of my monitors on my desk
     xrandr --output HDMI-2 --left-of DP-1 --output DP-1 --left-of eDP-1
 
@@ -26,6 +34,9 @@ then
 
     # set DP-1 as the primary monitor
     xrandr --output DP-1 --primary
+
+    # set up Terminator to use the tiny profile
+    export TERMINAL="/usr/bin/terminator -p tiny"
 else
     # WE ARE NOT HOME, set the embedded monitor as our primary
     notify-send 'Two or fewer monitors present, assuming we are NOT home...'

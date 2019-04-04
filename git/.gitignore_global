@@ -69,3 +69,8 @@ TAGS
 GPATH
 GRTAGS
 GTAGS
+
+# Eclipse
+.classpath
+.project
+.settings

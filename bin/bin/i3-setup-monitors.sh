@@ -8,7 +8,7 @@ M=$(xrandr --listactivemonitors | head -n1)
 NM=""${M: -1}""
 
 # always set the resolution of the embedded notebook display to something readable
-xrandr --output eDP-1 --mode 2560x1440 --dpi 96
+xrandr --output eDP-1 --mode 1600x900 --dpi 96
 
 # conditional setup depending on how many monitors are present
 # scenario 1: 3 or more monitors, we must be home

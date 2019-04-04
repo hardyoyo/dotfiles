@@ -36,11 +36,12 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+# bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+d exec --no-startup-id rofi -show run
 
 # change focus
 bindsym $mod+j focus left
@@ -180,6 +181,19 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+# Alt-Tab is a reflex, let's let it do something useful/comparable
+bindsym Mod1+Tab workspace next
+bindsym Mod1+Shift+Tab exec --no-startup-id rofi -show window
+# bindsym Mod1+Shift+Tab workspace prev
+
+# Scratchpad
+bindsym $mod+Shift+BackSpace move scratchpad
+bindsym $mod+BackSpace scratchpad show
+
+# move all Zoom windows to the scratchpad
+# for_window [class="Zoom"] move to scratchpad
+assign [class="Zoom"] scratchpad
+
 # assign all Slack windows to workspace 3
 assign [class="^Slack"] 3
 
@@ -194,8 +208,12 @@ exec /home/hpottinger/bin/i3-setup-monitors.sh
 # reset the background, in case it is garbled
 exec feh --bg-fill ~/Documents/desktops/minimalistic_pixels.jpg
 
+# set up xautolock
+exec --no-startup-id xautolock -time 5 -locker 'i3lock-fancy -g -p' &
+
 # these are executed in order, put cerebro last, it doesn't like to be first
 exec /usr/bin/pasystray
+exec /usr/bin/zoom
 exec /usr/bin/com.gitlab.bitseater.meteo
 exec "/usr/bin/snap userd --autostart"
 exec /user/local/bin/autokey-qt
@@ -205,4 +223,5 @@ exec  --no-startup-id "/usr/bin/slack --startup"
 exec /usr/local/bin/buildnotifyapplet.py
 exec --no-startup-id nm-applet
 exec "/usr/bin/blueman-applet"
-exec /usr/local/bin/cerebro
+exec "/usr/local/bin/superProductivity"
+exec --no-startup-id "/usr/local/bin/cerebro"

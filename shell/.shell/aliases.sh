@@ -76,3 +76,9 @@ export NLS_LANG=AMERICAN_AMERICA.UTF8
 
 # i3wm stuff
 alias make-screen-res-readable='xrandr --output eDP-1 --mode 1920x1080' 
+
+# bfg
+alias bfg='java -jar /usr/local/lib/bfg.jar'
+
+# freelibrary
+alias rb='mvn info.freelibrary:freelib-utils:generate-codes -DmessageFiles=$(find src -name "*_messages.xml")'

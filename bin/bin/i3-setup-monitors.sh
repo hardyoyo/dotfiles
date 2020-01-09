@@ -19,7 +19,7 @@ then
     notify-send 'More than two monitors present, assuming we are home...'
 
     # set the resolutions of all the monitors to what is comfortable on my desk
-    xrandr --output HDMI-2 --mode 1280x1024 --dpi 96
+    xrandr --output HDMI-2 --mode 1600x900 --dpi 96
     xrandr --output eDP-1 --mode 1600x900 --dpi 96
     # xrandr --output DP-1 --mode 3840x2400 --dpi 96 --scale 2x2
     xrandr --output DP-1 --mode 1920x1200 --dpi 96 

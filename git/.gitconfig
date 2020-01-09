@@ -9,6 +9,7 @@
 	abbrev = 9
 	editor = vim
 	trustctime = false
+	quotepath = off
 [alias]
 	a = add
 	b = branch
@@ -39,6 +40,7 @@
 	stat = status
 	sub = submodule
 	y = cherry-pick
+    cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
 [am]
 	threeWay = true
 [apply]
@@ -46,7 +48,7 @@
 [color]
 	ui = auto
 [diff]
-	tool = vimdiff
+	tool = meld
 	mnemonicPrefix = true
 [format]
 	pretty = medium
@@ -60,6 +62,10 @@
 	tool = meld
 [credential]
 	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
 [mergetool "meld"]
     cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 	trustExitCode = true
@@ -85,3 +91,5 @@
 	templatedir = ~/.git_template
 [mergetool]
 	trustExitCode = true
+[gui]
+	encoding = utf-8

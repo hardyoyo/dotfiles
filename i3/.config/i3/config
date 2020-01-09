@@ -35,6 +35,12 @@ bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 bindsym $mod+Shift+q kill
 
+# disable xautoscreenlock
+bindsym $mod+Scroll_Lock exec sh -c 'xautolock -toggle'
+
+# engage xautoscreenlock
+bindsym $mod+Shift+Scroll_Lock exec sh -c 'xautolock -locknow'
+
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -150,9 +156,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# fix the resolution
-bindsym $mod+Shift+f exec "xrandr --output eDP-1 --mode 2560x1440"
-
 # printscreen selection with shutter
 bindsym Shift+0xff61 exec "shutter -s"
 
@@ -186,6 +189,10 @@ bindsym Mod1+Tab workspace next
 bindsym Mod1+Shift+Tab exec --no-startup-id rofi -show window
 # bindsym Mod1+Shift+Tab workspace prev
 
+# define a shortcut for the UCLA VPN
+bindsym Mod1+n exec --no-startup-id nmcli con up id "UCLA VPN"
+bindsym Mod1+Shift+n exec --no-startup-id nmcli con down id "UCLA VPN"
+
 # Scratchpad
 bindsym $mod+Shift+BackSpace move scratchpad
 bindsym $mod+BackSpace scratchpad show
@@ -209,7 +216,7 @@ exec /home/hpottinger/bin/i3-setup-monitors.sh
 exec feh --bg-fill ~/Documents/desktops/minimalistic_pixels.jpg
 
 # set up xautolock
-exec --no-startup-id xautolock -time 5 -locker 'i3lock-fancy -g -p' &
+exec --no-startup-id xautolock -time 5 -locker 'i3lock-fancy -g -p' -notify 5 &
 
 # these are executed in order, put cerebro last, it doesn't like to be first
 exec /usr/bin/pasystray
@@ -224,4 +231,13 @@ exec /usr/local/bin/buildnotifyapplet.py
 exec --no-startup-id nm-applet
 exec "/usr/bin/blueman-applet"
 exec "/usr/local/bin/superProductivity"
+exec "/usr/bin/run_keybase -a"
+exec "/usr/bin/evolution"
+exec --no-startup-id "/usr/lib/x86_64-linux-gnu/indicator-messages/indicator-messages-service"
 exec --no-startup-id "/usr/local/bin/cerebro"
+
+
+# Compton
+# seq 0 3 | xargs -l1 -I@ compton -b -d :0.@  # Multihead support
+#exec --no-startup-id "compton -b"
+exec --no-startup-id compton --opacity-rule '100:window_type = "dock" && class_g = "i3bar"' --config ~/.config/compton.conf -b

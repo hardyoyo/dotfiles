@@ -1,3 +1,6 @@
+# dev workspace conventions
+content
+
 # Vagrant-DSpace configs should be opt-in
 config/*.yaml*
 config/*.sh*
@@ -80,3 +83,6 @@ local-docker-compose.yml
 
 # VSCode stuff
 .vscode
+
+# nice things to have
+.inputrc

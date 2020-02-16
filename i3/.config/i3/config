@@ -35,8 +35,9 @@ bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# disable xautoscreenlock
-bindsym $mod+Scroll_Lock exec sh -c 'xautolock -toggle'
+# toggle xautoscreenlock
+# bindsym $mod+Scroll_Lock exec sh -c 'xautolock -toggle && notify-xautolock-status'
+bindsym $mod+Scroll_Lock exec "if xautolock -exit; then (notify-send 'LOCK -OFF-') 2> /dev/null; else notify-send 'LOCK +ON+'; xautolock -time 5 -locker 'i3lock-fancy -g -p' -notify 5 -notifier \\"notify-send 'LOCKING screen ...'\\"; fi"
 
 # engage xautoscreenlock
 bindsym $mod+Shift+Scroll_Lock exec sh -c 'xautolock -locknow'

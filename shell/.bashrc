@@ -6,13 +6,14 @@ umask 002
 # let's use a visible bell
 set bell-style visible
 
+# skip for now, hjp 2020-03-11
 # let's use rbenv, shall we?
 # skip on mac and Windows
-case "$OSTYPE" in
-  darwin*)  ;; 
-  msys*)    ;;
-  *)		eval "$(rbenv init -)";;
-esac
+# case "$OSTYPE" in
+#   darwin*)  ;; 
+#   msys*)    ;;
+#   *)		eval "$(rbenv init -)";;
+# esac
 
 # let's use the bleeding-edge version of Ansible
 
@@ -32,12 +33,12 @@ if [ -n "$DESKTOP_SESSION" ];then
 fi
 
 # set gopath
-export GOPATH=~/gocode/
+# export GOPATH=~/gocode/
 
 # set up DSpace docker-compose stuff
-export DSPACE_SRC=$HOME/workspace/dspace
-export DSPACE_VER=dspace-6_x-jdk8-test
-export DPROJ=v6
+# export DSPACE_SRC=$HOME/workspace/dspace
+# export DSPACE_VER=dspace-6_x-jdk8-test
+# export DPROJ=v6
 
 # use vim for programs opening an editor
 VISUAL='vim'
@@ -48,16 +49,16 @@ ASK_SUDO_PASSWORD=1
 
 # skip on mac and Windows
 # on linux, always spin up vim with servername set to vim
-case "$OSTYPE" in
-  darwin*)  ;; 
-  msys*)    ;;
-  *)		alias vim='vim --servername vim'
-			alias vi='vim --servername vim'
-			;;
-esac
+# case "$OSTYPE" in
+#   darwin*)  ;; 
+#   msys*)    ;;
+#  *)		alias vim='vim --servername vim'
+#			alias vi='vim --servername vim'
+			# ;;
+# esac
 
 # let's use pyenv to manage our Python setup
-export PYENV_ROOT="$HOME/.pyenv"
+# export PYENV_ROOT="$HOME/.pyenv"
 
 # set up java, maven, and ant
 # NOTE: no trailing slash on JAVA_HOME, *EVER*
@@ -83,14 +84,14 @@ source ~/.shell/workspace.sh
 source ~/.shell/run.sh
 
 # only run this for interactive shells, skip otherwise
-if [[ -v PS1 ]]; then
-    # show a fortune
-    source ~/.shell/fortune.sh
-    echo "--"
-    # run ddate, because it's awesome
-    ddate
-    echo
-fi
+# if [[ -v PS1 ]]; then
+#     # show a fortune
+#     source ~/.shell/fortune.sh
+#     echo "--"
+#     # run ddate, because it's awesome
+#     ddate
+#     echo
+# fi
 
 # cd options
 #shopt -s autocd cdspell dirspell
@@ -258,4 +259,4 @@ export SINAI_TEST_SESSION_COOKIE='OEOHmGInGAwr%2BOzXpzqmPs4u2LoBsebqxer%2BzJXmx3
 export DOMAIN='library.ucla.edu'
 
 # init pyenv
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"

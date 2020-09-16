@@ -1,9 +1,11 @@
-location:columbia, MO
+api_key:d76fc477da2669c0c04557686e6b76fe
+location:4381982
 units:imperial
 show_daylight:true
 show_wind:true
 show_humidity:false
 show_pressure:false
+forecast:5
 
 ansi:false
 symbols:true

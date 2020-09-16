@@ -1,2 +1,0 @@
-#!/bin/bash
-/usr/bin/java -jar /usr/local/yed/yed.jar

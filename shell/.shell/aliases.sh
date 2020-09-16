@@ -82,3 +82,9 @@ alias bfg='java -jar /usr/local/lib/bfg.jar'
 
 # freelibrary
 alias rb='mvn info.freelibrary:freelib-utils:generate-codes -DmessageFiles=$(find src -name "*_messages.xml")'
+
+# whatismyip
+alias whatismyip='dig +short myip.opendns.com @resolver1.opendns.com'
+
+# amidone
+alias amidone='notes'

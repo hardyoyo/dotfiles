@@ -46,6 +46,7 @@ Plugin 'sickill/vim-monokai'
 Plugin 'hukl/Smyck-Color-Scheme'
 Plugin 'vim-scripts/wombat256.vim'
 Plugin 'jnurmine/Zenburn'
+Plugin 'therubymug/vim-pyte'
 
 " plugins
 "Plugin 'idbrii/AsyncCommand'
@@ -156,7 +157,7 @@ endif
 " font options
 set background=dark
 set t_Co=256
-colorscheme desert
+colorscheme pyte
 
 " keep at least 5 lines below the cursor
 set scrolloff=5
@@ -255,3 +256,5 @@ set titlestring=VIM:\ %F
 " Indentline config
 let g:indentLine_color_term = 239
 
+" fix indents for yaml files
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab

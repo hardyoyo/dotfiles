@@ -1,5 +1,22 @@
+
+# temporarily ignore Lando stuff while I ramp up how it works
+# .lando.yml
+# default.env
+# local.env
+
+# janeway stuff
+src/core/fixtures/*.json
+src/core/urls.py.*
+src/django-*
+src/dynamicsites
+src/ebooklib
+src/foundationform
+src/utils/management/commands/import_earth.py
+
+
 # dev workspace conventions
 content
+.env
 
 # Vagrant-DSpace configs should be opt-in
 config/*.yaml*
@@ -86,3 +103,9 @@ local-docker-compose.yml
 
 # nice things to have
 .inputrc
+
+# Pyenv leaves these around, ignore 'em please
+.python-version
+
+# ignore pre-commit config, nobody else cares
+.pre-commit-config.yaml

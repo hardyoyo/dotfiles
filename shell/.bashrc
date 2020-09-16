@@ -7,12 +7,17 @@ umask 002
 set bell-style visible
 
 # let's use rbenv, shall we?
-# skip on mac and Windows
+# skip on Windows
 case "$OSTYPE" in
-  darwin*)  ;; 
+  # darwin*)  ;; 
   msys*)    ;;
   *)		eval "$(rbenv init -)";;
 esac
+
+
+# and lets' use jenv, too
+eval "$(jenv init -)"
+export JAVA_HOME="$(jenv javahome)"
 
 # let's use the bleeding-edge version of Ansible
 
@@ -76,6 +81,15 @@ path_front ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
 path_front /usr/local/android-studio/bin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/kakadu /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin /usr/local/pycharm/bin
 
+# icu4c needs to be up front so I can use uconv to keep Excel from munging UTF-8 characters
+path_front /usr/local/opt/icu4c/bin
+
+# openssl munging so MySQL works
+path_back /usr/local/opt/openssl@1.1/bin
+export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
+
 # workspace setup
 source ~/.shell/workspace.sh
 
@@ -121,8 +135,16 @@ HISTFILESIZE=
 HISTFILE=~/.bash_history_file
 
 # only on mac
-# use git completion
-#source /usr/local/etc/bash_completion.d/git-prompt.sh
+if type brew &>/dev/null; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+    done
+  fi
+fi
 
 # source my own bash_completeions, plz
 source ~/.bash_completion
@@ -244,18 +266,16 @@ export NVM_DIR="$HOME/.nvm"
 
 # export AWS_PROFILE=uclalibrary
 
+# set up nvm
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 # fix the accessibility bus warnings
 export NO_AT_BRIDGE=1
 
-# delegate testing for Sinai Cantaloupe
-export CIPHER_KEY='ThisPasswordIsReallyHardToGuess!'
-export CIPHER_IV='abcdefghijklmnop'
-export CIPHER_TEXT='E%BA%DD%FD%D3S%8A%D9%08%92%8D%F1%D8%CCV%ED%BE%AFoa%14u0y%F2%01%AE%F6%ED%8BE%A4'
-export SINAI_SECRET_KEY_BASE='c0bd86591f5a9f1542d54cfe6c1187151cbb5e8d2ad0d569bdafd4f42893d7b2a046206340a51a4e60e04f8d1be8454194ba6140da7fb32c45aa92df0cc1107f'
-export SINAI_SALT='authenticated encrypted cookie'
-export SINAI_COOKIE_NAME='_rails-api_session'
-export SINAI_TEST_SESSION_COOKIE='OEOHmGInGAwr%2BOzXpzqmPs4u2LoBsebqxer%2BzJXmx3yjSyOn0zCLGdjCA713TbImTnCY2VdMrqJxtirTsc37UmUdynj9%2FzVw3VPAGNqI5S5aF1%2FvU1i75g1z14NHZPNIe8CsImUowMFq%2FGisWUoH1yePh9WfQd%2BHWRciAFliCScZvFpnCg0dN9JVMXr5w4Q9IlSQxpx6e%2B3j--hGeBdjgVBCpJAg%2B%2B--8I4Kz%2BiSH5MoP%2BryYrd6cw%3D%3D'
-export DOMAIN='library.ucla.edu'
-
 # init pyenv
 eval "$(pyenv init -)"
+
+# use Node 12 by default
+nvm use 12

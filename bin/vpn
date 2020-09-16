@@ -1,3 +1,0 @@
-#!/bin/bash
-
-sudo openconnect "https://pda.ssl.vpn.ucla.edu/"&

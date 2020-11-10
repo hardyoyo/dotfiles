@@ -45,8 +45,8 @@ export DSPACE_VER=dspace-6_x-jdk8-test
 export DPROJ=v6
 
 # use vim for programs opening an editor
-VISUAL='vim'
-EDITOR="$VISUAL"
+export VISUAL='vim'
+export EDITOR="$VISUAL"
 
 # set ask_sudo_password for serverspec testing
 ASK_SUDO_PASSWORD=1
@@ -60,6 +60,14 @@ case "$OSTYPE" in
 			alias vi='vim --servername vim'
 			;;
 esac
+
+# be more verbose when we mv, cp or rm things
+alias mv='mv -v'
+alias cp='cp -v'
+alias rm='rm -v'
+
+# always open VScode in a new window, so we don't clobber existing work
+alias code='code -n'
 
 # let's use pyenv to manage our Python setup
 export PYENV_ROOT="$HOME/.pyenv"
@@ -260,6 +268,8 @@ alias gitpitch='docker run -it -v $(pwd):/repo -p 9000:9000 gitpitch/desktop:pro
 # added by travis gem
 #[ -f /home/hpottinger/.travis/travis.sh ] && source /home/hpottinger/.travis/travis.sh
 
+alias sync-ezid-plugin='rsync -avzSCH /Users/hpotting/workspace/janeway/src/plugins/ezid/. /Users/hpotting/workspace/EarthArXiv/plugins/ezid/'
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -279,3 +289,10 @@ eval "$(pyenv init -)"
 
 # use Node 12 by default
 nvm use 12
+
+# ezid testing environment variables
+export EZID_SHOULDER="doi:10.15697/"
+export EZID_USERNAME="apitest"
+export EZID_PASSWORD="apitest"
+export EZID_URL="https://uc3-ezidx2-stg.cdlib.org" # stage, sometimes better for testing
+# export EZID_URL="https://ezid.cdlib.org" # prod, ok for testing

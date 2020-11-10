@@ -12,7 +12,7 @@ src/dynamicsites
 src/ebooklib
 src/foundationform
 src/utils/management/commands/import_earth.py
-
+src/core/dev_settings.py
 
 # dev workspace conventions
 content
@@ -109,3 +109,6 @@ local-docker-compose.yml
 
 # ignore pre-commit config, nobody else cares
 .pre-commit-config.yaml
+
+#if I want to configure pylint, I don't need to share the config
+.pylintrc

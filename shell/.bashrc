@@ -69,6 +69,11 @@ alias rm='rm -v'
 # always open VScode in a new window, so we don't clobber existing work
 alias code='code -n'
 
+# remember the mute startup sound command
+# other possible values: %01, %00 or " "
+# alias mute_startup_sound='sudo nvram SystemAudioVolume=%80'
+alias mute_startup_sound='sudo nvram StartupMute=%01'
+
 # let's use pyenv to manage our Python setup
 export PYENV_ROOT="$HOME/.pyenv"
 
@@ -107,8 +112,8 @@ source ~/.shell/run.sh
 # only run this for interactive shells, skip otherwise
 if [[ -v PS1 ]]; then
     # show a fortune
-    source ~/.shell/fortune.sh
-    echo "--"
+    # source ~/.shell/fortune.sh
+    # echo "--"
     # run ddate, because it's awesome
     ddate
     echo
@@ -152,6 +157,11 @@ if type brew &>/dev/null; then
       [[ -r "$COMPLETION" ]] && source "$COMPLETION"
     done
   fi
+fi
+
+# source our credentials file, if it's there
+if [[ -r "${HOME}/.creds.env" ]]; then
+    source "${HOME}/.creds.env"
 fi
 
 # source my own bash_completeions, plz
@@ -288,7 +298,11 @@ export NO_AT_BRIDGE=1
 eval "$(pyenv init -)"
 
 # use Node 12 by default
-nvm use 12
+nvm use 14
+
+# check whether our AWS credentials are stale (or about to be so) and gently warn us about it, they expire after 12 hours (43200 seconds)
+AGE_OF_CREDS_FILE="$(($(date +%s) - $(stat -t %s -f %m -- "${HOME}/.creds.env")))"
+[ "$AGE_OF_CREDS_FILE" -lt "43000" ] && echo "***AWS credentials are current, good for you!" || echo "***AWS credentials are STALE, you should get on that soon: https://cdlsso.awsapps.com/start#/ "
 
 # ezid testing environment variables
 export EZID_SHOULDER="doi:10.15697/"
@@ -296,3 +310,5 @@ export EZID_USERNAME="apitest"
 export EZID_PASSWORD="apitest"
 export EZID_URL="https://uc3-ezidx2-stg.cdlib.org" # stage, sometimes better for testing
 # export EZID_URL="https://ezid.cdlib.org" # prod, ok for testing
+
+complete -C /usr/local/bin/terraform terraform

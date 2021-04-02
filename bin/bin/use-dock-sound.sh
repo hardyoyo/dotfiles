@@ -11,7 +11,7 @@
 
 # commands for OSX
 /usr/local/bin/switchaudiosource -s "MacBook Pro Microphone" -t input
-/usr/local/bin/switchaudiosource -s "External Headphones" -t output
+/usr/local/bin/switchaudiosource -s "USB audio CODEC" -t output
 
 # send a notification to confirm the audio source is set correctly
 CURRENT_AUDIO_INFO=$(SwitchAudioSource -c)

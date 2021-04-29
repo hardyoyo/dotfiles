@@ -22,6 +22,8 @@
 "   ,s: split window
 "   ,t: new tab
 "   ,w: close tab
+"   ,f: FZF from the current directory
+"   ,z: FZF from home folder
 "   kj: enter normal mode and save
 "   Ctrl+{h,j,k,l}: move among windows
 "   ii: operate on all text at current indent level
@@ -213,12 +215,14 @@ nnoremap <leader>g <C-w><C-]><C-w>T
 nnoremap <leader>G <C-]>
 nnoremap <leader>h :tabnew<CR>:ConqueTerm bash<CR>
 nnoremap <leader>l :NERDTreeTabsToggle<CR>
-"nnoremap <leader>k :CheckSyntax<CR>
+nnoremap <leader>k :CheckSyntax<CR>
 nnoremap <leader>o :CommandT<CR>
 nnoremap <leader>p :set invpaste<CR>
 nnoremap <leader>t :tabnew<CR>
 nnoremap <leader>s :vsplit<CR>
 nnoremap <leader>w :tabclose<CR>
+nnoremap <leader>f :FZF<CR>
+nnoremap <leader>z :FZF ~<CR>
 
 " ; is better than :, and kj is better than ctrl-c
 nnoremap ; :

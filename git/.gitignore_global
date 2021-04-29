@@ -4,6 +4,9 @@
 # default.env
 # local.env
 
+# ignore this common pattern of mine
+.requiresvpn
+
 # janeway stuff
 src/core/fixtures/*.json
 src/core/urls.py.*

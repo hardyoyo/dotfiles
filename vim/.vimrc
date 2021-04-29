@@ -75,6 +75,7 @@ Plugin 'yggdroot/indentline'
 Plugin 'ervandew/supertab'
 Plugin 'chrisbra/csv.vim'
 Plugin 'whiteinge/diffconflicts'
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 " syntax files
 Plugin 'pangloss/vim-javascript'
@@ -258,3 +259,6 @@ let g:indentLine_color_term = 239
 
 " fix indents for yaml files
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" show hidden files in nerdtree
+let NERDTreeShowHidden=1

@@ -5,7 +5,7 @@ source ~/.shell/packages.sh
 if [[ $OSTYPE == darwin* ]]
 then
     # power
-    alias shutdown='sudo shutdown -hP now'
+    alias shutdown='sudo shutdown -h now'
     alias reboot='sudo reboot now'
     alias sleep='shutdown -s now'
 
@@ -41,6 +41,8 @@ alias vpnoff="sudo killall openconnect"
 alias kill-vagrant-notify="kill $(ps aux | grep 8100 | grep -v grep | awk '{print $2}')"
 alias vim-init="vim +PluginInstall +qall -q /dev/null && cd $HOME/.vim/bundle/Command-T/ruby/command-t && ruby extconf.rb && make"
 alias be='bundle exec'
+
+alias yamllint='yamllint -d relaxed'
 
 # DSpace stuff
 alias dspace.fetchupstreamdspace="cd $HOME/workspace/dspace && git config --add remote.upstream-dspace.fetch +refs/pull/*/head:refs/remotes/upstream-dspace/pr/*"

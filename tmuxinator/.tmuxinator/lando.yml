@@ -1,0 +1,18 @@
+# ~/.tmuxinator/lando.yml
+
+# requires a project name to be passed as an arg
+
+name: lando
+root: ~/workspace/<%= @args[0] %>
+on_project_stop: lando poweroff
+windows:
+  - lando:
+      layout: main-vertical
+      panes:
+        - ~/bin/check_vpn.sh && lando start && lando logs -f || printf "\n\n\x1b[31m<%= @args[0] %> requires you to be connected to the VPN as currently configured.\nTry again after you connect to the VPN ¯\_(ツ)_/¯ \x1b[0m\n\n"
+  - code:
+      layout: main-vertical
+      panes:
+        - vim .
+
+

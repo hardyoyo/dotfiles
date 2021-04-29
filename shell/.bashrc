@@ -89,6 +89,7 @@ path_front ~/.jenv/bin
 path_front ~/.cabal/bin
 path_front $PYENV_ROOT/bin
 path_front $PYENV_ROOT/shims
+path_front ~/.cargo/bin
 
 # icu4c needs to be up front so I can use uconv to keep Excel from munging UTF-8 characters
 path_front /usr/local/opt/icu4c/bin

@@ -15,9 +15,10 @@ case "$OSTYPE" in
 esac
 
 
-# and lets' use jenv, too
-eval "$(jenv init -)"
-export JAVA_HOME="$(jenv javahome)"
+
+# set up completion functions
+source /usr/share/bash-completion/bash_completion
+
 
 # let's use the bleeding-edge version of Ansible
 
@@ -48,24 +49,15 @@ export DPROJ=v6
 export VISUAL='vim'
 export EDITOR="$VISUAL"
 
-
-# set ask_sudo_password for serverspec testing
-ASK_SUDO_PASSWORD=1
-
-# skip on mac and Windows
-# on linux, always spin up vim with servername set to vim
-case "$OSTYPE" in
-  darwin*)  ;; 
-  msys*)    ;;
-  *)		alias vim='vim --servername vim'
-			alias vi='vim --servername vim'
-			;;
-esac
+# handle common typos
+alias gi='git'
 
 # be more verbose when we mv, cp or rm things
 alias mv='mv -v'
 alias cp='cp -v'
 alias rm='rm -v'
+
+alias rec='recipemd'
 
 # always open VScode in a new window, so we don't clobber existing work
 alias code='code -n'
@@ -89,11 +81,14 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 # path setup
 source ~/.shell/path-edit.sh
-path_front $PYENV_ROOT/bin
 path_front ~/.rbenv/plugins/ruby-build/bin
 path_front ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
 path_front /usr/local/android-studio/bin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/kakadu /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin /usr/local/pycharm/bin
+path_front ~/.jenv/bin
+path_front ~/.cabal/bin
+path_front $PYENV_ROOT/bin
+path_front $PYENV_ROOT/shims
 
 # icu4c needs to be up front so I can use uconv to keep Excel from munging UTF-8 characters
 path_front /usr/local/opt/icu4c/bin
@@ -160,25 +155,25 @@ if type brew &>/dev/null; then
   fi
 fi
 
-# source our credentials file, if it's there
-if [[ -r "${HOME}/.creds.env" ]]; then
-    source "${HOME}/.creds.env"
-fi
+# # source our credentials file, if it's there
+# if [[ -r "${HOME}/.creds.env" ]]; then
+#     source "${HOME}/.creds.env"
+# fi
 
 # source my own bash_completeions, plz
 source ~/.bash_completion
 
 # source powerbash
-source ~/.shell/powerbash.sh
+source ~/.powerbash.sh
 
 # try out the powerbash prompt for a bit
 # prompt setup
-# PROMPT_DIRTRIM=2
+PROMPT_DIRTRIM=2
 #
-# GIT_PS1_SHOWDIRTYSTATE=1
-# GIT_PS1_SHOWUNTRACKEDFILES=1
-# GIT_PS1_SHOWCOLORHINTS=1
-# GIT_PS1_SHOWUPSTREAM=auto
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWCOLORHINTS=1
+GIT_PS1_SHOWUPSTREAM=auto
 #
 # set_prompt () {
 #     local last_command=$?
@@ -305,10 +300,10 @@ eval "$(pyenv init -)"
 # use Node 12 by default
 nvm use 14
 
-# check whether our AWS credentials are stale (or about to be so) and gently warn us about it, they expire after 12 hours (43200 seconds)
-AGE_OF_CREDS_FILE="$(($(date +%s) - $(stat -t %s -f %m -- "${HOME}/.creds.env")))"
-[ "$AGE_OF_CREDS_FILE" -lt "43000" ] && echo "***AWS credentials are current, good for you!" || echo "***AWS credentials are STALE, you should get on that soon: https://cdlsso.awsapps.com/start#/ "
-
+# # check whether our AWS credentials are stale (or about to be so) and gently warn us about it, they expire after 12 hours (43200 seconds)
+# AGE_OF_CREDS_FILE="$(($(date +%s) - $(stat -t %s -f %m -- "${HOME}/.creds.env")))"
+# [ "$AGE_OF_CREDS_FILE" -lt "43000" ] && echo "***AWS credentials are current, good for you!" || echo "***AWS credentials are STALE, you should get on that soon: https://cdlsso.awsapps.com/start#/ "
+#
 # ezid testing environment variables
 export EZID_SHOULDER="doi:10.15697/"
 export EZID_USERNAME="apitest"
@@ -323,3 +318,8 @@ powerbash path mini
 
 # set powerbash to show my hostname, because it's funny
 powerbash host on
+
+# and lets' use jenv, too
+eval "$(~/.jenv/bin/jenv init -)"
+export JAVA_HOME="$(jenv javahome)"
+

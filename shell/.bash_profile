@@ -8,3 +8,5 @@ if [ -f '/Users/hpotting/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/U
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/hpotting/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/hpotting/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+source /home/hardy/.local/powerbash/powerbash.sh
+

@@ -78,6 +78,8 @@ Plugin 'ervandew/supertab'
 Plugin 'chrisbra/csv.vim'
 Plugin 'whiteinge/diffconflicts'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plugin 'godlygeek/tabular'
+" Plugin 'plasticboy/vim-markdown'
 
 " syntax files
 Plugin 'pangloss/vim-javascript'
@@ -99,6 +101,9 @@ let g:CommandTTraverseSCM = 'pwd'
 
 " I kinda need to see the syntax
 let g:markdown_syntax_conceal = 0
+
+" and let's just keep the current indent for lists, OK?
+let g:vim_markdown_new_list_item_indent = 0
 
 " taglist config
 let g:Tlist_Use_Right_Window = 1
@@ -266,3 +271,8 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " show hidden files in nerdtree
 let NERDTreeShowHidden=1
+
+
+" hardwrap is nice
+set textwidth=80
+set colorcolumn=80

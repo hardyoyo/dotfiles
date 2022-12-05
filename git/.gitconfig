@@ -93,3 +93,5 @@
 	trustExitCode = true
 [gui]
 	encoding = utf-8
+[hub]
+	protocol = ssh

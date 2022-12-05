@@ -1,3 +1,15 @@
 for i in ~/.bash_completion.d/*.{sh,bash}; do
     . "$i"
 done
+
+# let's be sure we have a few handy completions, too
+# NOTE: shouldn't be necessary
+# . /usr/share/bash-completion/completions/git
+# . /usr/share/bash-completion/completions/ssh
+# . /usr/share/bash-completion/completions/jq
+# . /usr/share/bash-completion/completions/xmllint
+# . /usr/share/bash-completion/completions/python3
+# . /usr/share/bash-completion/completions/kill
+# . /usr/share/bash-completion/completions/killall
+#
+

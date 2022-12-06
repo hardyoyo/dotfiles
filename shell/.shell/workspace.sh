@@ -7,10 +7,12 @@ function ws {
     cd $HOME/workspace/$1
 
     # if we are in our WORKSPACE root, and we have gfold, let's run gfold
-    if [ "$PWD" == "$WORKSPACE" && hash gfold ]; then
-        printf '%.s─' $(seq 1 $(tput cols))
-        gfold -d classic
-        printf '%.s─' $(seq 1 $(tput cols))
+    if [ "$PWD" == "$WORKSPACE" ]; then
+        if hash gfold 2>/dev/null; then
+            printf '%.s─' $(seq 1 $(tput cols))
+            gfold -d classic
+            printf '%.s─' $(seq 1 $(tput cols))
+        fi
     fi
 
     if [ -d .svn ]; then

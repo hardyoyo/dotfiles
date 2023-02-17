@@ -21,6 +21,7 @@
 "   ,o: open file
 "   ,s: split window
 "   ,t: new tab
+"   ,T: Make a TODO list for the current file
 "   ,w: close tab
 "   ,f: FZF from the current directory
 "   ,z: FZF from home folder
@@ -60,7 +61,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tomtom/tcomment_vim'
-"Plugin 'tomtom/checksyntax_vim'
+Plugin 'tomtom/checksyntax_vim'
 Plugin 'vim-scripts/trailing-whitespace'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'terryma/vim-multiple-cursors'
@@ -219,6 +220,7 @@ nnoremap <leader>k :CheckSyntax<CR>
 nnoremap <leader>o :CommandT<CR>
 nnoremap <leader>p :set invpaste<CR>
 nnoremap <leader>t :tabnew<CR>
+nnoremap <leader>T :Ack TODO %:p<CR>
 nnoremap <leader>s :vsplit<CR>
 nnoremap <leader>w :tabclose<CR>
 nnoremap <leader>f :FZF<CR>
@@ -266,3 +268,8 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " show hidden files in nerdtree
 let NERDTreeShowHidden=1
+
+" use ripgrep if it's available instead of ack
+if executable('rg')
+    let g:ackprg = 'rg --vimgrep'
+endif

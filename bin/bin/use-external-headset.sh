@@ -8,4 +8,7 @@
 /usr/local/bin/switchaudiosource -s "External Headphones" -t output
 /usr/local/bin/switchaudiosource -s "External Microphone" -t input
 
+# send a notification to confirm the audio source is set correctly
+notify-which-audio-selected.sh
+
 exit 0

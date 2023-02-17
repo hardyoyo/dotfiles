@@ -1,5 +1,6 @@
-api_key:d76fc477da2669c0c04557686e6b76fe
+api_key:50adcc837ff94e6e4eb917034e937638
 location:4381982
+fetch_cmd:wget -qO-
 units:imperial
 show_daylight:true
 show_wind:true

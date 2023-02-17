@@ -4,7 +4,7 @@
 
 shopt -s extglob
 
-_ws()
+_ds()
 {
     local cur
     COMPREPLY=()
@@ -13,8 +13,7 @@ _ws()
 
     #Build a list of our keywords for auto-completion using
     #the dirs in the workspace folder
-	local names=$(for x in `ls -1 $HOME/workspace`; do echo ${x} ; done )
-	# local names=$(for x in `fd -t d -d 2 . $HOME/workspace`; do echo ${x} ; done )
+	local names=$(for x in `ls -1 $HOME/dspace-workspace`; do echo ${x} ; done )
 
     #array variable COMPREPLY
     COMPREPLY=($(compgen -W "${names}" -- ${cur}))
@@ -22,4 +21,4 @@ _ws()
 }
 
 #Assign the auto-completion function _ws for our command ws.
-complete -F _ws ws
+complete -F _ds ds

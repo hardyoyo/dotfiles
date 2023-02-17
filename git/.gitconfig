@@ -50,6 +50,7 @@
 [diff]
 	tool = meld
 	mnemonicPrefix = true
+	# external = difft --background light
 [format]
 	pretty = medium
 [help]
@@ -89,7 +90,10 @@
 	path = ~/.gitconfig_local
 [init]
 	templatedir = ~/.git_template
+	defaultBranch = main
 [mergetool]
 	trustExitCode = true
 [gui]
 	encoding = utf-8
+[commit]
+	gpgsign = true

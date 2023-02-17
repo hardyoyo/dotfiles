@@ -10,8 +10,8 @@
 # /usr/bin/pactl set-default-source alsa_input.pci-0000_00_1f.3.analog-stereo
 
 # commands for OSX
-/usr/local/bin/switchaudiosource -s "MacBook Pro Microphone" -t input
-/usr/local/bin/switchaudiosource -s "External Headphones" -t output
+/usr/local/bin/switchaudiosource -s "USB audio CODEC" -t input
+/usr/local/bin/switchaudiosource -s "USB audio CODEC" -t output
 
 # send a notification to confirm the audio source is set correctly
 notify-which-audio-selected.sh

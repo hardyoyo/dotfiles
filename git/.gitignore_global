@@ -1,3 +1,13 @@
+# ignore .todo files
+.todo
+
+# ignore tags files
+tags
+
+# VSCode drops these all over for Java projects
+.factorypath
+.java-version
+
 
 # temporarily ignore Lando stuff while I ramp up how it works
 # .lando.yml
@@ -8,6 +18,9 @@
 .requiresvpn
 
 # janeway stuff
+src/static/*
+src/static/*/css/app.css
+src/files/repos
 src/core/fixtures/*.json
 src/core/urls.py.*
 src/django-*
@@ -16,16 +29,16 @@ src/ebooklib
 src/foundationform
 src/utils/management/commands/import_earth.py
 src/core/hardy_settings.py
+# src/themes/* #temporarily not ignoring while I work on DSpace, hope this doesn't bite me later
 
 # dev workspace conventions
 content
 .env
 
-# Vagrant-DSpace configs should be opt-in
-config/*.yaml*
-config/*.sh*
-config/*.txt
-config/local.cfg*
+# local/Lando-DSpace configs should be opt-in
+# NOTE: if you add more configs here, you'll need to git rm --cached name-of-file.ext, then git add name-of-file.ext, in order to get git to stop tracking the file for changes
+dspace/config/spring/api/bitstore.xml
+dspace/config/*local.cfg*
 
 # Compiled source
 *.elc
@@ -115,3 +128,6 @@ local-docker-compose.yml
 
 #if I want to configure pylint, I don't need to share the config
 .pylintrc
+
+# I dunno why DSpace isn't already ignoring these
+dspace/modules/*/bin/

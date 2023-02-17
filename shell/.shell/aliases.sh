@@ -34,15 +34,24 @@ alias octave='octave --quiet'
 alias du='du -h'
 alias df='df -h'
 alias whatismyip='dig +short myip.opendns.com @resolver1.opendns.com'
-alias polipo-offline="/usr/bin/curl -m 5 -d 'proxyOffline=true' http://localhost:8123/polipo/config?"
-alias polipo-online="/usr/bin/curl -m 5 -d 'proxyOffline=false' http://localhost:8123/polipo/config?"
-alias vpn="sudo openconnect -b https://anyconnect.missouri.edu --config=/home/pottingerhj/.config/openconnect/config"
-alias vpnoff="sudo killall openconnect"
+# alias polipo-offline="/usr/bin/curl -m 5 -d 'proxyOffline=true' http://localhost:8123/polipo/config?"
+# alias polipo-online="/usr/bin/curl -m 5 -d 'proxyOffline=false' http://localhost:8123/polipo/config?"
+# alias vpn="sudo openconnect -b https://anyconnect.missouri.edu --config=/home/pottingerhj/.config/openconnect/config"
+# alias vpnoff="sudo killall openconnect"
 alias kill-vagrant-notify="kill $(ps aux | grep 8100 | grep -v grep | awk '{print $2}')"
 alias vim-init="vim +PluginInstall +qall -q /dev/null && cd $HOME/.vim/bundle/Command-T/ruby/command-t && ruby extconf.rb && make"
 alias be='bundle exec'
 
 alias yamllint='yamllint -d relaxed'
+
+# jschol stuff
+alias watch-dev='watch -d aws --profile pub elasticbeanstalk describe-environments --environment-name eb-pub-jschol2-dev'
+alias watch-stg='watch -d aws --profile pub elasticbeanstalk describe-environments --environment-name eb-pub-jschol2-stg'
+alias watch-prd='watch -d aws --profile pub elasticbeanstalk describe-environments --environment-name eb-pub-jschol2-prd'
+alias health-dev='aws --profile pub elasticbeanstalk describe-instances-health --environment-name eb-pub-jschol2-dev --attribute-names All'
+alias health-stg='aws --profile pub elasticbeanstalk describe-instances-health --environment-name eb-pub-jschol2-stg --attribute-names All'
+alias health-prd='aws --profile pub elasticbeanstalk describe-instances-health --environment-name eb-pub-jschol2-prd --attribute-names All'
+
 
 # DSpace stuff
 alias dspace.fetchupstreamdspace="cd $HOME/workspace/dspace && git config --add remote.upstream-dspace.fetch +refs/pull/*/head:refs/remotes/upstream-dspace/pr/*"

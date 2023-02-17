@@ -9,4 +9,7 @@
 # commands for OSX
 /usr/local/bin/switchaudiosource -s "MacBook Pro Microphone" -t input
 
+# send a notification to confirm the audio source is set correctly
+notify-which-audio-selected.sh
+
 exit 0

@@ -16,8 +16,8 @@ esac
 
 
 # and lets' use jenv, too
-eval "$(jenv init -)"
-export JAVA_HOME="$(jenv javahome)"
+if which jenv > /dev/null; then eval "$(jenv init -)"; fi
+# export JAVA_HOME="$(/usr/libexec/java_home)"
 
 # let's use the bleeding-edge version of Ansible
 
@@ -36,13 +36,20 @@ if [ -n "$DESKTOP_SESSION" ];then
     export SSH_AUTH_SOCK
 fi
 
+# use this AWS Profile most of the time
+export AWS_PROFILE=pub
+
+
 # set gopath
 export GOPATH=~/gocode/
 
+# really really don't want to run zsh, stop going on about it, plz
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # set up DSpace docker-compose stuff
-export DSPACE_SRC=$HOME/workspace/dspace
-export DSPACE_VER=dspace-6_x-jdk8-test
-export DPROJ=v6
+# export DSPACE_SRC=$HOME/workspace/dspace
+# export DSPACE_VER=dspace-6_x-jdk8-test
+# export DPROJ=v6
 
 # use vim for programs opening an editor
 export VISUAL='vim'
@@ -70,13 +77,23 @@ alias rm='rm -v'
 # always open VScode in a new window, so we don't clobber existing work
 alias code='code -n'
 
+# remember the flags for diffing folders as a command
+alias folderdiff='diff -rq'
+
 # remember the mute startup sound command
 # other possible values: %01, %00 or " "
 # alias mute_startup_sound='sudo nvram SystemAudioVolume=%80'
 alias mute_startup_sound='sudo nvram StartupMute=%01'
 
+# use the reverse version of dust all the time
+alias dust='dust --reverse'
+
 # let's use pyenv to manage our Python setup
 export PYENV_ROOT="$HOME/.pyenv"
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
 # set up java, maven, and ant
 # NOTE: no trailing slash on JAVA_HOME, *EVER*
@@ -89,12 +106,10 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 # path setup
 source ~/.shell/path-edit.sh
-path_front $PYENV_ROOT/bin
 path_front ~/.rbenv/plugins/ruby-build/bin
-path_front ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
+path_front /usr/local/opt/mysql@5.7/bin $PYENV_ROOT/shims $HOME/.local/bin ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
 path_front /usr/local/android-studio/bin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/kakadu /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin /usr/local/pycharm/bin
-
 # icu4c needs to be up front so I can use uconv to keep Excel from munging UTF-8 characters
 path_front /usr/local/opt/icu4c/bin
 
@@ -104,21 +119,19 @@ export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 
-# workspace setup
+# workspace(s) setup
 source ~/.shell/workspace.sh
+source ~/.shell/dspace-workspace.sh
 
 # run setup
 source ~/.shell/run.sh
 
-# only run this for interactive shells, skip otherwise
-if [[ -v PS1 ]]; then
-    # show a fortune
-    # source ~/.shell/fortune.sh
-    # echo "--"
-    # run ddate, because it's awesome
-    ddate
-    echo
-fi
+# # only run this for interactive shells, skip otherwise
+# if [ -z ${PS1+x} ]; then
+#     # show a fortune
+#     # source ~/.shell/fortune.sh
+#     # echo "--"
+# fi
 
 # cd options
 #shopt -s autocd cdspell dirspell
@@ -169,60 +182,62 @@ fi
 source ~/.bash_completion
 
 # source powerbash
-source ~/.shell/powerbash.sh
+# source ~/.shell/powerbash.sh
 
-# try out the powerbash prompt for a bit
+# Martin's Fancy AWS Session stuff
+source ~/.shell/aws-session.sh
+
 # prompt setup
-# PROMPT_DIRTRIM=2
-#
-# GIT_PS1_SHOWDIRTYSTATE=1
-# GIT_PS1_SHOWUNTRACKEDFILES=1
-# GIT_PS1_SHOWCOLORHINTS=1
-# GIT_PS1_SHOWUPSTREAM=auto
-#
-# set_prompt () {
-#     local last_command=$?
-#     PS1='\u@\h:'
-#     # save after every command
-#     history -a
-#
-#     # color escape codes
-#     local color_off='\[\e[0m\]'
-#     local color_red='\[\e[0;31m\]'
-#     local color_green='\[\e[0;32m\]'
-#     local color_yellow='\[\e[0;33m\]'
-#     local color_blue='\[\e[0;34m\]'
-#     local color_purple='\[\e[0;35m\]'
-#     local color_cyan='\[\e[0;36m\]'
-#
-#     # add purple exit code if non-zero
-#     if [[ $last_command != 0 ]]; then
-# 	PS1+=$color_purple
-# 	PS1+='$? '
-# 	PS1+=$color_off
-#     fi
-#
-#     # shortened working directory
-#     PS1+='\w '
-#
-#     # add Git status with color hints
-#     PS1+="$(__git_ps1 "%s ")"
-#
-#     # red for root, off for user
-#     if [[ $EUID == 0 ]]; then
-# 	PS1+=$color_red
-#     else
-# 	PS1+=$color_off
-#     fi
-#
-#     # end of prompt
-#     PS1+='|-'
-#     PS1+=$color_red
-#     PS1+='/ '
-#     PS1+=$color_off
-# }
-# PROMPT_COMMAND='set_prompt'
-#
+PROMPT_DIRTRIM=2
+
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWCOLORHINTS=1
+GIT_PS1_SHOWUPSTREAM=auto
+
+set_prompt () {
+    local last_command=$?
+    PS1='\u@\h:'
+    # save after every command
+    history -a
+
+    # color escape codes
+    local color_off='\[\e[0m\]'
+    local color_red='\[\e[0;31m\]'
+    local color_green='\[\e[0;32m\]'
+    local color_yellow='\[\e[0;33m\]'
+    local color_blue='\[\e[0;34m\]'
+    local color_purple='\[\e[0;35m\]'
+    local color_cyan='\[\e[0;36m\]'
+
+    # add purple exit code if non-zero
+    if [[ $last_command != 0 ]]; then
+	PS1+=$color_purple
+	PS1+='$? '
+	PS1+=$color_off
+    fi
+
+    # shortened working directory
+    PS1+='\w '
+
+    # add Git status with color hints
+    PS1+="$(__git_ps1 "%s ")"
+
+    # red for root, off for user
+    if [[ $EUID == 0 ]]; then
+	PS1+=$color_red
+    else
+	PS1+=$color_off
+    fi
+
+    # end of prompt
+    PS1+='|-'
+    PS1+=$color_red
+    PS1+='/ '
+    PS1+=$color_off
+}
+PROMPT_COMMAND='set_prompt'
+
 # aliases
 source ~/.shell/aliases.sh
 
@@ -276,6 +291,12 @@ alias dockercleani='printf "\n>>> Deleting untagged images\n\n" && docker rmi $(
 # Delete all stopped containers and untagged images.
 alias dockerclean='docker system prune -af && dockercleanc || true && dockercleani'
 
+# Delete all Lando stuff (cache and docker images)
+alias landoclean='printf "\n>>> Deleting Lando caches\n\n" && rm -Rf ~/.lando/cache/* && rm -Rf ~/.lando/compose/* && docker system prune -af && dockercleanc || true && dockercleani'
+
+# really really rebuild a Lando project
+alias landonuke='lando destroy -y && lando rebuild -y'
+
 # run the gitpitch desktop docker image, with the current folder mounted for slides
 alias gitpitch='docker run -it -v $(pwd):/repo -p 9000:9000 gitpitch/desktop:pro'
 
@@ -284,12 +305,12 @@ alias gitpitch='docker run -it -v $(pwd):/repo -p 9000:9000 gitpitch/desktop:pro
 #[ -f /home/hpottinger/.travis/travis.sh ] && source /home/hpottinger/.travis/travis.sh
 
 alias sync-ezid-plugin='rsync -avzSCH /Users/hpotting/workspace/janeway/src/plugins/ezid/. /Users/hpotting/workspace/EarthArXiv/plugins/ezid/'
+alias sync-GP-theme='rsync -avzSCH /Users/hpotting/workspace/janeway/src/themes/GP/. /Users/hpotting/workspace/GP/'
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# export AWS_PROFILE=uclalibrary
 
 # set up nvm
 export NVM_DIR="$HOME/.nvm"
@@ -302,12 +323,17 @@ export NO_AT_BRIDGE=1
 # init pyenv
 eval "$(pyenv init -)"
 
-# use Node 12 by default
-nvm use 14
+# use Node 16 by default
+nvm use 16
 
-# check whether our AWS credentials are stale (or about to be so) and gently warn us about it, they expire after 12 hours (43200 seconds)
-AGE_OF_CREDS_FILE="$(($(date +%s) - $(stat -t %s -f %m -- "${HOME}/.creds.env")))"
-[ "$AGE_OF_CREDS_FILE" -lt "43000" ] && echo "***AWS credentials are current, good for you!" || echo "***AWS credentials are STALE, you should get on that soon: https://cdlsso.awsapps.com/start#/ "
+# ddate is awesome
+ddate
+
+days_until.py /Users/hpotting/.event_list.txt
+
+# check whether our AWS credentials are stale and gently warn us about it
+(aws sts get-caller-identity > /dev/null) && echo -e "\e[01;32m❱❱❱ AWS credentials are current, good for you!\e[0m" || echo -e "\e[01;31m❱❱❱ AWS credentials are STALE, you should get on that soon: \e[32maws sso login\e[0m"
+
 
 # ezid testing environment variables
 export EZID_SHOULDER="doi:10.15697/"
@@ -319,7 +345,41 @@ export EZID_URL="https://uc3-ezidx2-stg.cdlib.org" # stage, sometimes better for
 complete -C /usr/local/bin/terraform terraform
 
 # set the powerbash path format
-powerbash path mini
+# powerbash path mini
 
 # set powerbash to show my hostname, because it's funny
-powerbash host on
+# powerbash host on
+
+# set the default for FZF
+export FZF_DEFAULT_COMMAND='fd'
+
+# set GPG_TTY
+GPG_TTY=$(tty)
+export GPG_TTY
+
+# set LESS to get out of the way for less than one page of output
+export LESS='FXmR'
+
+# fix mouse issues by unloading and reloading bluetooth driver
+function fix-mouse () {
+	echo "Terminating Bluetooth driver I/O Kit driver instance"
+	sudo kextunload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
+	echo "Waiting 3 seconds to reload driver"
+	sleep 3
+	sudo kextload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
+	echo "Done!"
+}
+export -f fix-mouse
+export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
+
+# Docker stuff
+export COMPOSE_HTTP_TIMEOUT=600
+. "$HOME/.cargo/env"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+
+export COLUMNS="120"
+
+export PATH="$PATH:/Users/hpotting/ACLI"

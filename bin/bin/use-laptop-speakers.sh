@@ -14,7 +14,6 @@
 /usr/local/bin/switchaudiosource -s "MacBook Pro Speakers" -t output
 
 # send a notification to confirm the audio source is set correctly
-CURRENT_AUDIO_INFO=$(SwitchAudioSource -c)
-terminal-notifier -message "Audio i/o set to: ${CURRENT_AUDIO_INFO}"
+notify-which-audio-selected.sh
 
 exit 0

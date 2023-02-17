@@ -11,7 +11,6 @@
 /usr/local/bin/switchaudiosource -s "Logitech USB Headset" -t input
 
 # send a notification to confirm the audio source is set correctly
-CURRENT_AUDIO_INFO=$(SwitchAudioSource -c)
-terminal-notifier -message "Audio i/o set to: ${CURRENT_AUDIO_INFO}"
+notify-which-audio-selected.sh
 
 exit 0

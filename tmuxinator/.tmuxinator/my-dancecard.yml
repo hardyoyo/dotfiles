@@ -1,0 +1,11 @@
+# ~/.tmuxinator/my-dancecard.yml
+
+name: my-dancecard
+root: ~
+# pre_window: rvm use ruby-2.4.2
+windows:
+  - radar:
+      layout: main-vertical
+      panes:
+        - my-radar.sh
+        - echo "more stuff here"

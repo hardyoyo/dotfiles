@@ -99,3 +99,6 @@ alias whatismyip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # amidone
 alias amidone='notes'
+
+# clean keyboard
+alias cleankeyboard="echo 'Hit ctrl-c to exit, and scrub hard!' && read -rs"

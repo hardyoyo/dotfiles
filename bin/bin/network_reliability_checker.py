@@ -14,7 +14,7 @@ Options:
     --target TARGET_HOST  The target host to check [default: google.com].
     --max-hops MAX_HOPS   Maximum number of hops to check [default: 3].
     --iface INTERFACE     The network interface to use [default: en0].
-    --duration DURATION   Duration in seconds to collect statistics [default: 60].
+    --duration DURATION   Duration in seconds to collect statistics [default: 10].
 """
 
 import click
@@ -34,7 +34,7 @@ def check_root_privileges():
 @click.option('--target', default='google.com', help='The target host to check.')
 @click.option('--max-hops', default=3, help='Maximum number of hops to check.')
 @click.option('--iface', default='en0', help='The network interface to use.')
-@click.option('--duration', default=60, help='Duration in seconds to collect statistics.')
+@click.option('--duration', default=10, help='Duration in seconds to collect statistics.')
 def network_reliability(target, max_hops, iface, duration):
     check_root_privileges()  # Check for root privileges
 
@@ -56,11 +56,9 @@ def network_reliability(target, max_hops, iface, duration):
         3: "from modem to pole"
     }
 
-    def signal_handler(sig, frame):
-        click.echo("\nScript terminated by user.")
-        sys.exit(0)
-
-    signal.signal(signal.SIGINT, signal_handler)  # Handle Ctrl-C
+    packet_loss_count = [0] * (max_hops + 1)  # Initialize packet loss count for each hop
+    total_packets_sent = 0
+    total_packets_received = 0
 
     try:
         while time.time() < end_time:
@@ -70,9 +68,13 @@ def network_reliability(target, max_hops, iface, duration):
 
                 hop_description = hop_descriptions.get(hop, "your ISP")
 
+                total_packets_sent += 1
+
                 if response:
+                    total_packets_received += 1
                     click.echo(f"Hop {hop} ({hop_description}): {response.src} (RTT: {response.time * 1000} ms)")
                 else:
+                    packet_loss_count[hop] += 1
                     # Use the "❌" symbol to indicate packet loss
                     click.echo(f"Hop {hop} ({hop_description}): ❌ Packet loss detected")
 
@@ -81,6 +83,35 @@ def network_reliability(target, max_hops, iface, duration):
 
     except KeyboardInterrupt:
         pass  # Handle Ctrl-C gracefully
+
+    # Calculate packet loss percentage for each hop
+    packet_loss_percentage = [(count / total_packets_sent) * 100 for count in packet_loss_count]
+
+    # Display summary
+    click.echo("\n--- Summary ---")
+    click.echo(f"Target host: {target}")
+    click.echo(f"Network interface: {iface}")
+    click.echo(f"Total packets sent: {total_packets_sent}")
+    click.echo(f"Total packets received: {total_packets_received}")
+
+    # Determine the hop with the most packet loss
+    most_packet_loss_hop = packet_loss_percentage.index(max(packet_loss_percentage))
+
+    # Display advice based on the hop with the most packet loss
+    if packet_loss_percentage[most_packet_loss_hop] > 10:
+        most_packet_loss_description = hop_descriptions.get(most_packet_loss_hop, "Your ISP")
+        click.echo(f"Hop {most_packet_loss_hop} ({most_packet_loss_description}) has the most packet loss.")
+        if most_packet_loss_hop == 1:
+            click.echo("Advice: Consider moving closer to your access point.")
+        elif most_packet_loss_hop == 2:
+            click.echo("Advice: Check the cable from the modem to the router.")
+        elif most_packet_loss_hop == 3:
+            click.echo("Advice: Contact your ISP to check the connection to your house.")
+    
+    # Display packet loss percentages for all hops
+    for hop in range(1, max_hops + 1):
+        hop_description = hop_descriptions.get(hop, "Your ISP")
+        click.echo(f"Hop {hop} ({hop_description}) - Packet loss percentage: {packet_loss_percentage[hop]:.2f}%")
 
 if __name__ == '__main__':
     network_reliability()

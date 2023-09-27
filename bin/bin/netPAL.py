@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# script requires speedtest-cli, install it with pip install speedtest-cli
+
 import subprocess
 import re
 import click
@@ -25,9 +27,10 @@ def net_info(target, quiet, count, latency_threshold):
         route_cmd = f"route get {target} | grep interface"
         route_result = subprocess.run(route_cmd, shell=True, stdout=subprocess.PIPE, text=True, check=True)
         active_interface = route_result.stdout.split(":")[1].strip()
+        active_interface_description = get_description_for_interface(active_interface)
 
         if not quiet:
-            click.echo(f"Active network interface: {active_interface}")
+            click.echo(f"Active network interface: {active_interface} ({active_interface_description})")
         # Get the current MTU for the active interface
         mtu_cmd = f"networksetup -getMTU {active_interface}"
         mtu_result = subprocess.run(mtu_cmd, shell=True, stdout=subprocess.PIPE, text=True, check=True)
@@ -80,8 +83,33 @@ def net_info(target, quiet, count, latency_threshold):
 
     # Run speedtest with --simple in quiet mode
     click.echo("Running speed test. Press Ctrl+C to exit if needed...")
-    speedtest_cmd = "speedtest-cli --simple" if quiet else "speedtest-cli"
+    speedtest_cmd = "speedtest-cli --simple --secure" if quiet else "speedtest-cli --secure"
     subprocess.run(speedtest_cmd, shell=True, check=True)
+
+    click.echo(" [ℹ] Our typical download value is higher than 20 MBit/s, and typical upload is around 5 or 6 Mbit/s")
+    click.echo()
+
+def get_description_for_interface(interface):
+    # Get the network hardware ports info using networksetup
+    try:
+        output = subprocess.check_output(["networksetup", "-listallhardwareports"], universal_newlines=True)
+    except subprocess.CalledProcessError:
+        return "Error: Unable to retrieve interface descriptions."
+
+    # Parse the output to build a dictionary of interface descriptions
+    interface_descriptions = {}
+    lines = output.splitlines()
+    current_interface = None
+
+    for line in lines:
+        if line.startswith("Hardware Port:"):
+            current_interface = re.search(r'Hardware Port: (.+)', line).group(1)
+        elif current_interface and line.strip().startswith("Device:"):
+            device_name = re.search(r'Device: (.+)', line).group(1)
+            interface_descriptions[device_name] = current_interface
+
+    # Find and return the description for the given interface
+    return interface_descriptions.get(interface, "Description not found")
 
 if __name__ == '__main__':
     net_info()

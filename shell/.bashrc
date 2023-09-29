@@ -1,7 +1,7 @@
 # this file is sourced by non-login interactive shells and ~/.bash_profile
 
 # set the umask to something reasonable
-umask 002
+/usr/bin/umask 002
 
 # let's use a visible bell
 set bell-style visible
@@ -76,12 +76,9 @@ alias mute_startup_sound='sudo nvram StartupMute=%01'
 # use the reverse version of dust all the time
 alias dust='dust --reverse'
 
-# let's use pyenv to manage our Python setup
+# set the PYENV_ROOT
 export PYENV_ROOT="$HOME/.pyenv"
 
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
 
 # set up java, maven, and ant
 # NOTE: no trailing slash on JAVA_HOME, *EVER*
@@ -342,7 +339,8 @@ export EZID_PASSWORD="apitest"
 export EZID_URL="https://uc3-ezidx2-stg.cdlib.org" # stage, sometimes better for testing
 # export EZID_URL="https://ezid.cdlib.org" # prod, ok for testing
 
-complete -C /usr/local/bin/terraform terraform
+# we don't use terraform, no reason to source this
+# complete -C /usr/local/bin/terraform terraform
 
 # set the powerbash path format
 # powerbash path mini
@@ -369,12 +367,13 @@ export COMPOSE_HTTP_TIMEOUT=600
 cargo_env_path="$HOME/.cargo/env"; [ -e "$cargo_env_path" ] && . "$cargo_env_path"
 
 # Load Angular CLI autocompletion.
-source <(ng completion script)
+# source <(ng completion script)
 
 export COLUMNS="120"
 
 ######################## SET UP DEV TOOLS LAST ####################################################
 # set up our dev tools as the very last thing, so we have a good chance of finding them in the path
+# and they win any fights with homebrew paths
 
 # if we have rbenv, let's use it
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -383,4 +382,6 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 # export JAVA_HOME="$(/usr/libexec/java_home)"
 
-# NOTE pyenv setup is up there, it wants to be farther up, don't question it
+# and pyenv
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+

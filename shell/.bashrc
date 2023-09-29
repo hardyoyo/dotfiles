@@ -6,12 +6,6 @@ umask 002
 # let's use a visible bell
 set bell-style visible
 
-# if we have rbenv, let's use it
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-# and lets' use jenv, too
-if which jenv > /dev/null; then eval "$(jenv init -)"; fi
-# export JAVA_HOME="$(/usr/libexec/java_home)"
 
 # let's use the bleeding-edge version of Ansible
 
@@ -321,10 +315,11 @@ eval "$(pyenv init -)"
 # use Node 16 by default
 nvm use 16
 
-# ddate is awesome
-ddate
+# ddate is awesome, but a bit slow
+/opt/homebrew/bin/ddate
 
-days_until.py /Users/hpotting/.event_list.txt
+# can't wait!
+$HOME/bin/days_until.py /Users/hpotting/.event_list.txt
 
 # check whether our AWS credentials are stale and gently warn us about it
 # (aws sts get-caller-identity > /dev/null) && echo -e "\e[01;32m❱❱❱ AWS credentials are current, good for you!\e[0m" || echo -e "\e[01;31m❱❱❱ AWS credentials are STALE, you should get on that soon: \e[32maws sso login\e[0m"
@@ -378,4 +373,14 @@ source <(ng completion script)
 
 export COLUMNS="120"
 
-export PATH="$PATH:/Users/hpotting/ACLI"
+######################## SET UP DEV TOOLS LAST ####################################################
+# set up our dev tools as the very last thing, so we have a good chance of finding them in the path
+
+# if we have rbenv, let's use it
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# and lets' use jenv, too
+if which jenv > /dev/null; then eval "$(jenv init -)"; fi
+# export JAVA_HOME="$(/usr/libexec/java_home)"
+
+# NOTE pyenv setup is up there, it wants to be farther up, don't question it

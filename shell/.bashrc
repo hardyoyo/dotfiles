@@ -6,14 +6,8 @@ umask 002
 # let's use a visible bell
 set bell-style visible
 
-# let's use rbenv, shall we?
-# skip on Windows
-case "$OSTYPE" in
-  # darwin*)  ;; 
-  msys*)    ;;
-  *)		eval "$(rbenv init -)";;
-esac
-
+# if we have rbenv, let's use it
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # and lets' use jenv, too
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
@@ -62,7 +56,7 @@ ASK_SUDO_PASSWORD=1
 # skip on mac and Windows
 # on linux, always spin up vim with servername set to vim
 case "$OSTYPE" in
-  darwin*)  ;; 
+  darwin*)  ;;
   msys*)    ;;
   *)		alias vim='vim --servername vim'
 			alias vi='vim --servername vim'
@@ -106,6 +100,7 @@ fi
 
 # path setup
 source ~/.shell/path-edit.sh
+path_front /opt/homebrew/bin
 path_front ~/.rbenv/plugins/ruby-build/bin
 path_front /usr/local/opt/mysql@5.7/bin $PYENV_ROOT/shims $HOME/.local/bin ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
 path_front /usr/local/android-studio/bin
@@ -140,7 +135,7 @@ source ~/.shell/run.sh
 # glob options
 # skip on mac and Windows
 case "$OSTYPE" in
-  darwin*)  ;; 
+  darwin*)  ;;
   msys*)    ;;
   *)		shopt -s cdspell
             shopt -s dotglob extglob globstar nocaseglob
@@ -332,7 +327,17 @@ ddate
 days_until.py /Users/hpotting/.event_list.txt
 
 # check whether our AWS credentials are stale and gently warn us about it
-(aws sts get-caller-identity > /dev/null) && echo -e "\e[01;32m❱❱❱ AWS credentials are current, good for you!\e[0m" || echo -e "\e[01;31m❱❱❱ AWS credentials are STALE, you should get on that soon: \e[32maws sso login\e[0m"
+# (aws sts get-caller-identity > /dev/null) && echo -e "\e[01;32m❱❱❱ AWS credentials are current, good for you!\e[0m" || echo -e "\e[01;31m❱❱❱ AWS credentials are STALE, you should get on that soon: \e[32maws sso login\e[0m"
+# (aws sts get-caller-identity > /dev/null) && echo -e "\[\e[01;32m\]❱❱❱ AWS credentials are current, good for you!\[\e[0m\]" || echo -e "\[\e[01;31m\]❱❱❱ AWS credentials are STALE, you should get on that soon: \[\e[32m\]aws sso login\[\e[0m\]"
+if nc -zw1 google.com 443 >/dev/null 2>&1; then
+    if aws sts get-caller-identity > /dev/null 2>&1; then
+        echo -e "$(tput setaf 2)❱❱❱ AWS credentials are current, good for you!$(tput sgr0)"
+    else
+        echo -e "$(tput setaf 1)❱❱❱ AWS credentials are STALE, you should get on that soon: $(tput setaf 2)aws sso login$(tput sgr0)"
+    fi
+else
+    echo -e "$(tput setaf 57)❱❱❱ No network, you should jack in! ;-) Skipping AWS credential check...$(tput sgr0)"
+fi
 
 
 # ezid testing environment variables
@@ -360,22 +365,13 @@ export GPG_TTY
 # set LESS to get out of the way for less than one page of output
 export LESS='FXmR'
 
-# fix mouse issues by unloading and reloading bluetooth driver
-function fix-mouse () {
-	echo "Terminating Bluetooth driver I/O Kit driver instance"
-	sudo kextunload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
-	echo "Waiting 3 seconds to reload driver"
-	sleep 3
-	sudo kextload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
-	echo "Done!"
-}
-export -f fix-mouse
 export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
 
 # Docker stuff
 export COMPOSE_HTTP_TIMEOUT=600
-. "$HOME/.cargo/env"
 
+# source .cargo/env if we have one
+cargo_env_path="$HOME/.cargo/env"; [ -e "$cargo_env_path" ] && . "$cargo_env_path"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)

@@ -314,13 +314,20 @@ export EZID_URL="https://uc3-ezidx2-stg.cdlib.org" # stage, sometimes better for
 
 complete -C /usr/local/bin/terraform terraform
 
-# set the powerbash path format
-powerbash path mini
+# only attempt to config powerbash in interactive shells, skip otherwise
+if [[ -v PS1 ]]; then
 
-# set powerbash to show my hostname, because it's funny
-powerbash host on
+    # set the powerbash path format
+    powerbash path mini
+
+    # set powerbash to show my hostname, because it's funny
+    powerbash host on
+
+fi
 
 # and lets' use jenv, too
 eval "$(~/.jenv/bin/jenv init -)"
 export JAVA_HOME="$(jenv javahome)"
 
+
+source /home/hardy/.config/broot/launcher/bash/br

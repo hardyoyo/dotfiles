@@ -1,0 +1,5 @@
+# run compton/picom
+pidof picom 1> /dev/null || picom &
+
+# log in to Google Drive
+google-drive-ocamlfuse ~/GoogleDrive

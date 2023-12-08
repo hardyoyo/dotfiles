@@ -3,10 +3,10 @@
 # source everything else
 [[ -e ~/.bashrc ]] && source ~/.bashrc
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/hpotting/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/Users/hpotting/Downloads/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/hpotting/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/hpotting/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+# let's use powerbash
 source /home/hardy/.local/powerbash/powerbash.sh
 
+
+if [ -e /home/hardy/.nix-profile/etc/profile.d/nix.sh ]; then . /home/hardy/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+source /home/hardy/.config/broot/launcher/bash/br

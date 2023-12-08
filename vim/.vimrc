@@ -277,8 +277,3 @@ let NERDTreeShowHidden=1
 set textwidth=80
 set colorcolumn=80
 
-" highlight missing blank lines around horizontal rules
-
-autocmd BufRead,BufNewFile *.md,*.markdown,*.mkd syn match ErrorMsg "^---$\n\%>1l\&\%<line('$')" contains=ALL
-highlight link ErrorMsg Error
-

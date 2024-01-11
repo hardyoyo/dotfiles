@@ -60,7 +60,7 @@
 	decorate = short
 [merge]
 	keepbackups = false
-	tool = meld
+	tool = kdiff3
 [credential]
 	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [difftool]
@@ -97,3 +97,5 @@
 	encoding = utf-8
 [commit]
 	gpgsign = true
+[mergetool "kdiff3"]
+	path = /Applications/kdiff3.app/Contents/MacOS/kdiff3

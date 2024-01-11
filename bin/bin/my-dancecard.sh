@@ -4,9 +4,9 @@ set -euo pipefail
 
 echo ------------------- MY RADAR ------------------- && echo && /opt/homebrew/bin/icalBuddy -eep 'notes,location' -df '%a %b-%d-%Y (%RD)' -sd -t -nc -n -nrd -sed eventsToday+7
 echo
-echo -----------TRELLO - dev current work------------ && echo && /opt/homebrew/bin/trellotool card list todo | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'
-echo
-
+# echo -----------TRELLO - dev current work------------ && echo && /opt/homebrew/bin/trellotool card list todo | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'
+# echo
+#
 sprints=($(/opt/homebrew/bin/trellotool list list | grep HP | grep -oE '[0-9a-f]{24}'))
 # current_sprint=$(/opt/homebrew/bin/trellotool list list | grep Week | grep HP | grep -oE '[0-9a-f]{24}' | head -n 1)
 current_sprint="${sprints[0]}"

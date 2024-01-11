@@ -6,7 +6,6 @@
 # let's use a visible bell
 set bell-style visible
 
-
 # let's use the bleeding-edge version of Ansible
 
 #source $HOME/workspace/ansible/hacking/env-setup
@@ -27,6 +26,8 @@ fi
 # use this AWS Profile most of the time
 export AWS_PROFILE=pub
 
+# aw, homebrew... you da best
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # set gopath
 export GOPATH=~/gocode/
@@ -79,6 +80,9 @@ alias dust='dust --reverse'
 # set the PYENV_ROOT
 export PYENV_ROOT="$HOME/.pyenv"
 
+# more aliases
+alias ecrlogin="export AWS_PROFILE=cdl-pad-dev && aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 866216109762.dkr.ecr.us-west-2.amazonaws.com"
+alias record-alacritty='t-rec -w $(t-rec --ls-win | grep -i alacritty | awk "{print \$NF}")'
 
 # set up java, maven, and ant
 # NOTE: no trailing slash on JAVA_HOME, *EVER*
@@ -91,9 +95,11 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 # path setup
 source ~/.shell/path-edit.sh
-path_front /opt/homebrew/bin
+path_front $PYENV_ROOT/shims
+path_front $HOME/.cargo/bin
+path_back /opt/homebrew/bin
 path_front ~/.rbenv/plugins/ruby-build/bin
-path_front /usr/local/opt/mysql@5.7/bin $PYENV_ROOT/shims $HOME/.local/bin ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
+path_front /usr/local/opt/mysql@5.7/bin $HOME/.local/bin ~/bin /usr/local/sbin /usr/local/bin $GOPATH/bin /usr/local/idea/bin
 path_front /usr/local/android-studio/bin
 path_back /sbin /bin /usr/sbin /usr/bin $JAVA_HOME/bin /usr/local/kakadu /usr/local/idea/bin /usr/local/visualvm/bin /usr/local/yjp/bin /usr/local/node/bin $M2_HOME/bin $ANT_HOME/bin /usr/local/pycharm/bin
 # icu4c needs to be up front so I can use uconv to keep Excel from munging UTF-8 characters
@@ -168,7 +174,16 @@ fi
 source ~/.bash_completion
 
 # source powerbash
-# source ~/.shell/powerbash.sh
+# source ~/workspace/powerbash/powerbash.sh
+
+# let's try starship instead
+eval "$(starship init bash)"
+
+# Starship completion
+if [ -f ~/.bash_completion.d/starship.bash ]; then
+      . ~/.bash_completion.d/starship.bash
+fi
+
 
 # Martin's Fancy AWS Session stuff
 source ~/.shell/aws-session.sh
@@ -181,48 +196,70 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 GIT_PS1_SHOWCOLORHINTS=1
 GIT_PS1_SHOWUPSTREAM=auto
 
-set_prompt () {
-    local last_command=$?
-    PS1='\u@\h:'
-    # save after every command
-    history -a
 
-    # color escape codes
-    local color_off='\[\e[0m\]'
-    local color_red='\[\e[0;31m\]'
-    local color_green='\[\e[0;32m\]'
-    local color_yellow='\[\e[0;33m\]'
-    local color_blue='\[\e[0;34m\]'
-    local color_purple='\[\e[0;35m\]'
-    local color_cyan='\[\e[0;36m\]'
+# only attempt to config the prompt in interactive shells, skip otherwise
+if [ -n "$PS1" ]; then
 
-    # add purple exit code if non-zero
-    if [[ $last_command != 0 ]]; then
-	PS1+=$color_purple
-	PS1+='$? '
-	PS1+=$color_off
-    fi
+    sleep 1
+    # # set the powerbash path format
+    # powerbash path mini
+    #
+    # # set powerbash to show my hostname, because it's funny
+    # powerbash host on
+    #
+    # # set powerbash to show Python virtualenvironments
+    # powerbash py virtualenv on
+    #
+    # # use powerbash to set the term environment variable to xterm, which produces higher-contrast output
+    # powerbash term xterm
 
-    # shortened working directory
-    PS1+='\w '
+fi
 
-    # add Git status with color hints
-    PS1+="$(__git_ps1 "%s ")"
 
-    # red for root, off for user
-    if [[ $EUID == 0 ]]; then
-	PS1+=$color_red
-    else
-	PS1+=$color_off
-    fi
 
-    # end of prompt
-    PS1+='|-'
-    PS1+=$color_red
-    PS1+='/ '
-    PS1+=$color_off
-}
-PROMPT_COMMAND='set_prompt'
+# my old prompt, replaced by powerbash
+# set_prompt () {
+#     local last_command=$?
+#     PS1='\u@\h:'
+#     # save after every command
+#     history -a
+#
+#     # color escape codes
+#     local color_off='\[\e[0m\]'
+#     local color_red='\[\e[0;31m\]'
+#     local color_green='\[\e[0;32m\]'
+#     local color_yellow='\[\e[0;33m\]'
+#     local color_blue='\[\e[0;34m\]'
+#     local color_purple='\[\e[0;35m\]'
+#     local color_cyan='\[\e[0;36m\]'
+#
+#     # add purple exit code if non-zero
+#     if [[ $last_command != 0 ]]; then
+# 	PS1+=$color_purple
+# 	PS1+='$? '
+# 	PS1+=$color_off
+#     fi
+#
+#     # shortened working directory
+#     PS1+='\w '
+#
+#     # add Git status with color hints
+#     PS1+="$(__git_ps1 "%s ")"
+#
+#     # red for root, off for user
+#     if [[ $EUID == 0 ]]; then
+# 	PS1+=$color_red
+#     else
+# 	PS1+=$color_off
+#     fi
+#
+#     # end of prompt
+#     PS1+='|-'
+#     PS1+=$color_red
+#     PS1+='/ '
+#     PS1+=$color_off
+# }
+# PROMPT_COMMAND='set_prompt'
 
 # aliases
 source ~/.shell/aliases.sh
@@ -264,6 +301,7 @@ if [[ -r ~/.shell_local.sh ]]; then
 fi
 
 #MOAR ALIASES!!!!
+# lots more in .shell/aliases.sh you should probably put aliases in there
 
 # Kill all running containers.
 alias dockerkillall='docker kill $(docker ps -q)'
@@ -310,10 +348,10 @@ export NO_AT_BRIDGE=1
 eval "$(pyenv init -)"
 
 # use Node 16 by default
-nvm use 16
+nvm use 16 --silent
 
 # ddate is awesome, but a bit slow
-/opt/homebrew/bin/ddate
+#/opt/homebrew/bin/ddate
 
 # can't wait!
 $HOME/bin/days_until.py /Users/hpotting/.event_list.txt
@@ -342,12 +380,6 @@ export EZID_URL="https://uc3-ezidx2-stg.cdlib.org" # stage, sometimes better for
 # we don't use terraform, no reason to source this
 # complete -C /usr/local/bin/terraform terraform
 
-# set the powerbash path format
-# powerbash path mini
-
-# set powerbash to show my hostname, because it's funny
-# powerbash host on
-
 # set the default for FZF
 export FZF_DEFAULT_COMMAND='fd'
 
@@ -371,6 +403,19 @@ cargo_env_path="$HOME/.cargo/env"; [ -e "$cargo_env_path" ] && . "$cargo_env_pat
 
 export COLUMNS="120"
 
+# sentiment precommit-hook script config
+export MIN_COMMIT_MSG_LENGTH="240"
+# export SENTIMENT_THRESHOLD="0.01" # probably don't need to tinker with this
+
+### if we've just started up the computer (time limit 60 minutes), we might be interested in the weather forecast
+[[ $(( $(date +%s) - $(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',') )) -lt 3600 ]] && $HOME/.cargo/bin/wthrr
+# [[ $(( $(date +%s) - $(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',') )) -lt 3600 ]] && curl 'wttr.in/kcou?uqTF'
+
+### set my hostname to EDGECASE if it isn't already EDGECASE
+# sudoers is still not working correctly for no-password configs, so let's skip this for now
+#[ "$(hostname)" != "EDGECASE" ] && /Users/hpotting/bin/edgecase-is-dead-long-live-edgecase.sh
+
+
 ######################## SET UP DEV TOOLS LAST ####################################################
 # set up our dev tools as the very last thing, so we have a good chance of finding them in the path
 # and they win any fights with homebrew paths
@@ -380,8 +425,12 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # and lets' use jenv, too
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
-# export JAVA_HOME="$(/usr/libexec/java_home)"
+export JAVA_HOME="$(/usr/libexec/java_home)"
 
 # and pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
+export PGPASSFILE="$HOME/.pgpass"
+
+# direnv is nice, and it requests to go last, so... here it is
+eval "$(direnv hook bash)"

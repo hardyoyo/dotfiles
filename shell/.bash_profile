@@ -14,5 +14,5 @@
 # this is in .bashrc already, commenting out
 # export COLUMNS="120"
 
-# aw, homebrew... you da best
-eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# WARNING don't let homebrew install a config in .bash_profile, it will make path stuff really confusing in .bashrc

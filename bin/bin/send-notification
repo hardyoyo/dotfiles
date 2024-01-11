@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+
+import click
+import subprocess
+
+@click.command()
+@click.option('--title', '-t', help='Notification title')
+@click.option('--message', '-m', help='Notification message')
+@click.option('--icon', '-i', default=None, help='Path to the notification icon')
+@click.option('--sound', '-s', default=None, help='name of a sound in the ~/Library/sounds folder')
+def send_notification(title, message, icon, sound):
+    """
+    Send a notification with customizable parameters.
+    """
+    notification_cmd = ['osascript', '-e', f'display notification "{message}" with title "{title}"']
+
+    if icon:
+        notification_cmd.extend(['-e', f'set the icon to POSIX file "{icon}"'])
+
+    if sound:
+        notification_cmd.extend(['-e', f'sound name "{sound}"'])
+
+    subprocess.run(notification_cmd)
+
+if __name__ == '__main__':
+    send_notification()
+

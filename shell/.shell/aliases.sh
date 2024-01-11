@@ -34,6 +34,7 @@ alias octave='octave --quiet'
 alias du='du -h'
 alias df='df -h'
 alias whatismyip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias amiatucop='current_ip=$(dig +short myip.opendns.com @resolver1.opendns.com) && if [[ $current_ip =~ ^128\.48\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then echo -e "\033[0;32mOn\033[0m UCOP VPN"; else echo -e "\033[0;31mNot on\033[0m UCOP VPN"; fi'
 # alias polipo-offline="/usr/bin/curl -m 5 -d 'proxyOffline=true' http://localhost:8123/polipo/config?"
 # alias polipo-online="/usr/bin/curl -m 5 -d 'proxyOffline=false' http://localhost:8123/polipo/config?"
 # alias vpn="sudo openconnect -b https://anyconnect.missouri.edu --config=/home/pottingerhj/.config/openconnect/config"
@@ -102,3 +103,14 @@ alias amidone='notes'
 
 # clean keyboard
 alias cleankeyboard="echo 'Hit ctrl-c to exit, and scrub hard!' && read -rs"
+
+# how much space on a mac
+alias how-much-space-do-I-have-left="diskutil info / | grep 'Container Free Space'"
+
+alias mdless='mdless --no-color'
+
+
+# grab the weather from wttr.in
+weather() {
+    curl "wttr.in/$1?uqTF"
+}

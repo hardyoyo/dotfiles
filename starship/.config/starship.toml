@@ -1,20 +1,20 @@
 [username]
 style_user = 'black bold'
 style_root = 'red bold'
-format = '[$user]($style) '
+format = '\[[$user]($style)'
 disabled = false
 show_always = true
 
 [hostname]
 ssh_only = false
-format = '\[@[$hostname](bold red)\] '
+format = '[@](white)[$hostname](bold yellow)\] '
 trim_at = '.escholarship.org'
 disabled = false
 
 [character]
-success_symbol = '[\$](bold green) '
-error_symbol = '[✗](bold red) '
-
+success_symbol = '[＄](bold green)'
+# success_symbol = '[💲](bold green)'
+error_symbol = '[✗](bold red)'
 
 [directory]
 fish_style_pwd_dir_length=1

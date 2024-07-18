@@ -4,7 +4,7 @@ export DSWORKSPACE="$HOME/dspace-workspace"
 
 # add a hooray to docker-compose
 docker-compose() {
-    local cmd="docker-compose $@"
+    local cmd="docker compose $@"
     if command $cmd; then
         osascript -e "display notification \"${cmd}\" with title \"Docker-Compose Done\" sound name \"cheers\""
     else
@@ -73,8 +73,9 @@ function ds {
 }
 
 # Docker-Compose aliases for DSpace
-alias ds.dockerup="cd $DSWORKSPACE/dspace && docker-compose -p d7 up -d"
-alias ds.dockerdown="cd $DSWORKSPACE && docker-compose -p d7 down"
-alias ds.dockerlogs="cd $DSWORKSPACE && docker-compose -p d7 logs -f"
-alias dsa.dockerup="cd $DSWORKSPACE/dspace-angular && docker-compose -p d7 -f docker/docker-compose.yml up -d"
-alias dsa.dockerlogs="cd $DSWORKSPACE/dspace-angular && docker-compose -p d7 -f docker/docker-compose.yml logs -f"
+alias ds.dockerup="cd $DSWORKSPACE/dspace && docker compose -p d7 up -d"
+alias ds.dockerdown="cd $DSWORKSPACE && docker compose -p d7 down"
+alias ds.dockerlogs="cd $DSWORKSPACE && docker compose -p d7 logs -f"
+alias dsa.dockerup="cd $DSWORKSPACE/dspace-angular && docker compose -p d7 -f docker/docker-compose.yml up -d"
+alias dsa.dockerlogs="cd $DSWORKSPACE/dspace-angular && docker compose -p d7 -f docker/docker-compose.yml logs -f"
+alias ds.dockershell="cd $DSWORKSPACE/dspace && docker exec -it dspace /bin/bash"

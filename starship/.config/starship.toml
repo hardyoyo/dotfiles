@@ -20,7 +20,7 @@ error_symbol = '[✗](bold red)'
 fish_style_pwd_dir_length=1
 
 [aws]
-format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
+format = '\[[🅰️ ($profile)(\($region\))(\[$duration\])]($style)✨\]'
 
 [bun]
 format = '\[[$symbol($version)]($style)\]'
@@ -170,6 +170,7 @@ format = '\[[$symbol$stack]($style)\]'
 format = '\[[$symbol($version)]($style)\]'
 
 [python]
+disabled = true
 format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 
 [raku]

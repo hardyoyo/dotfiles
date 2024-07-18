@@ -7,33 +7,37 @@ echo
 # echo -----------TRELLO - dev current work------------ && echo && /opt/homebrew/bin/trellotool card list todo | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'
 # echo
 #
-sprints=($(/opt/homebrew/bin/trellotool list list | grep HP | grep -oE '[0-9a-f]{24}'))
-# current_sprint=$(/opt/homebrew/bin/trellotool list list | grep Week | grep HP | grep -oE '[0-9a-f]{24}' | head -n 1)
-current_sprint="${sprints[0]}"
-next_sprint="${sprints[1]}"
+# sprints=($(/opt/homebrew/bin/trellotool list list | grep HP | grep -oE '[0-9a-f]{24}'))
+# # current_sprint=$(/opt/homebrew/bin/trellotool list list | grep Week | grep HP | grep -oE '[0-9a-f]{24}' | head -n 1)
+# current_sprint="${sprints[0]}"
+# next_sprint="${sprints[1]}"
+#
+# if [ -n "$current_sprint" ]; then
+#     echo -----------TRELLO - current sprint ------------- && echo && /opt/homebrew/bin/trellotool card list "$current_sprint" | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"), RLENGTH)}'|sed -r 's/ #/\//g'
+# else
+#     echo ---- GRATS\! YOU ARE A FLOATER THIS SPRINT\!--------
+# fi
+#
+# if [ -n "$next_sprint" ]; then
+#     echo -------------TRELLO - next sprint ---------------- && echo && /opt/homebrew/bin/trellotool card list "$next_sprint" | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"), RLENGTH)}'|sed -r 's/ #/\//g'
+# else
+#     echo ---- GRATS\! YOU ARE A FLOATER NEXT SPRINT\!--------
+# fi
+#
+#
+# echo ---------------TRELLO - up next----------------- && echo && /opt/homebrew/bin/trellotool card list "Up Next" | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'|sed -r 's/\/$//g'|tail -n6
+# echo
+# echo ---------------TRELLO - new -------------------- && echo && /opt/homebrew/bin/trellotool card list "New Since Last Check-in" | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'|sed -r 's/\/$//g'|grep -vi "new since last check"
+# echo
+# echo ---------------TRELLO - backlog----------------- && echo && /opt/homebrew/bin/trellotool card list 60523683a26f1a2b2456d42f | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'
+# echo
+# echo ------------Janeway Build Failures-------------- && /Users/hpotting/bin/janeway-new-build-failures.py
+# echo -------------- Janeway Latest Tag -------------- && printf "$(/opt/homebrew/bin/gh api repos/BirkbeckCTP/janeway/tags | /opt/homebrew/bin/jq '.[0].name' | /usr/bin/tr -d \")\n"
+# echo
 
-if [ -n "$current_sprint" ]; then
-    echo -----------TRELLO - current sprint ------------- && echo && /opt/homebrew/bin/trellotool card list "$current_sprint" | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"), RLENGTH)}'|sed -r 's/ #/\//g'
-else
-    echo ---- GRATS\! YOU ARE A FLOATER THIS SPRINT\!--------
-fi
+# whenever trellotool decides to work again, uncomment all of the above, but until then, this janky thing works OK
+echo ---------------  TRELLO cards  ----------------- && echo && /Users/hpotting/bin/get_HP_cards.py --board-id 605235c3af631347c19401cf | jq -s '.[].name' | grep -v "PUBD-1185" | grep -v "\-\-\-" | grep -vi "not scheduled" | tr -d \" | grep -vi "dspace" | grep -v "D-Space"
 
-if [ -n "$next_sprint" ]; then
-    echo -------------TRELLO - next sprint ---------------- && echo && /opt/homebrew/bin/trellotool card list "$next_sprint" | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"), RLENGTH)}'|sed -r 's/ #/\//g'
-else
-    echo ---- GRATS\! YOU ARE A FLOATER NEXT SPRINT\!--------
-fi
-
-
-echo ---------------TRELLO - up next----------------- && echo && /opt/homebrew/bin/trellotool card list "Up Next" | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'|sed -r 's/\/$//g'|tail -n6
-echo
-echo ---------------TRELLO - new -------------------- && echo && /opt/homebrew/bin/trellotool card list "New Since Last Check-in" | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'|sed -r 's/\/$//g'|grep -vi "new since last check"
-echo
-echo ---------------TRELLO - backlog----------------- && echo && /opt/homebrew/bin/trellotool card list 60523683a26f1a2b2456d42f | grep hardy_cdl | awk -F '\|' '{print $3, $7"#"substr($3,match($3,"PUBD-[0-9]+"),RLENGTH)}'|sed -r 's/ #/\//g'
-echo
-echo ------------Janeway Build Failures-------------- && /Users/hpotting/bin/janeway-new-build-failures.py
-echo -------------- Janeway Latest Tag -------------- && printf "$(/opt/homebrew/bin/gh api repos/BirkbeckCTP/janeway/tags | /opt/homebrew/bin/jq '.[0].name' | /usr/bin/tr -d \")\n"
-echo
 # echo -------------- ✨ STEP Goals  ✨ --------------- && /opt/homebrew/bin/rich --markdown  ~/.step-goals
 /opt/homebrew/bin/rich --markdown --width 45 ~/.step-goals
 echo

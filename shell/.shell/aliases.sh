@@ -102,7 +102,7 @@ alias whatismyip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias amidone='notes'
 
 # clean keyboard
-alias cleankeyboard="echo 'Hit ctrl-c to exit, and scrub hard!' && read -rs"
+alias cleankeyboard="echo 'Hit return or ctrl-c to exit, and scrub hard!' && read -rs"
 
 # how much space on a mac
 alias how-much-space-do-I-have-left="diskutil info / | grep 'Container Free Space'"

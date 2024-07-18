@@ -24,7 +24,7 @@ if [ -n "$DESKTOP_SESSION" ];then
 fi
 
 # use this AWS Profile most of the time
-export AWS_PROFILE=pub
+export AWS_PROFILE=cdl-pad-prd
 
 # aw, homebrew... you da best
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -114,6 +114,7 @@ export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 # workspace(s) setup
 source ~/.shell/workspace.sh
 source ~/.shell/dspace-workspace.sh
+source ~/.shell/dspace-cris-workspace.sh
 
 # run setup
 source ~/.shell/run.sh
@@ -347,8 +348,8 @@ export NO_AT_BRIDGE=1
 # init pyenv
 eval "$(pyenv init -)"
 
-# use Node 16 by default
-nvm use 16 --silent
+# use Node 18 by default
+nvm use 18 --silent
 
 # ddate is awesome, but a bit slow
 #/opt/homebrew/bin/ddate
@@ -434,3 +435,10 @@ export PGPASSFILE="$HOME/.pgpass"
 
 # direnv is nice, and it requests to go last, so... here it is
 eval "$(direnv hook bash)"
+
+source /Users/hpotting/.config/broot/launcher/bash/br
+
+source ~/.pyenv/versions/3.11.5/bin/virtualenvwrapper.sh
+
+# Lando
+export PATH="/Users/hpotting/.lando/bin${PATH+:$PATH}"; #landopath

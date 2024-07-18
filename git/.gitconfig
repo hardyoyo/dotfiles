@@ -99,3 +99,9 @@
 	gpgsign = true
 [mergetool "kdiff3"]
 	path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
+[pager]
+	diff = riff
+	show = riff
+	log = riff
+[interactive]
+	diffFilter = riff

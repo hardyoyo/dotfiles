@@ -51,7 +51,7 @@ function ws {
         echo "git checkout BRANCHNAME"
         echo "git rebase -i master"
         echo
-
     fi
+    echo "---> use br (broot) to get an overview of this project"
 }
 

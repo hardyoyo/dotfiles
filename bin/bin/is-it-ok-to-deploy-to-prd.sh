@@ -13,9 +13,9 @@ health=$(aws --profile pub elasticbeanstalk describe-instances-health --environm
 # echo "$health"
 
 if [ "$health" == "\"Ok\"" ]; then
-    echo "Yes, it's OK to deploy to prd now."
+    echo "Yes, it's OK to deploy to jschol-prd now."
 else
-    echo "Hmm, it might not be OK to deploy to prd now. Check this out:"
+    echo "Hmm, it might not be OK to deploy to jschol-prd now. Check this out:"
     aws --profile pub elasticbeanstalk describe-instances-health --environment-name eb-pub-jschol2-prd --attribute-names All
 fi
 exit 0

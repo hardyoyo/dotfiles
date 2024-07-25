@@ -145,7 +145,7 @@ def net_info(target, quiet, count, latency_threshold):
     speedtest_cmd = "speedtest-cli --simple --secure" if quiet else "speedtest-cli --secure" 
     subprocess.run(speedtest_cmd, shell=True, check=True)
 
-    click.echo(" [ℹ] Our typical download value is higher than 20 MBit/s, and typical upload is around 5 or 6 Mbit/s") 
+    click.echo(" [ℹ] Max download on standard WiFi is higher than 20 MBit/s, and typical upload is around 5 or 6 Mbit/s") 
     click.echo()
 
 def get_description_for_interface(interface):

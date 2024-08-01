@@ -3,7 +3,7 @@
 # shutdown in a nice and orderly fashion
 
 # first poweroff Lando
-/usr/local/bin/lando poweroff
+# /usr/local/bin/lando poweroff
 
 # finally, shutdown immediately
 sudo /sbin/shutdown -h now

@@ -4,8 +4,8 @@
 
 # first poweroff Lando
 
-numContainers=$(docker ps | wc -l)
-numContainers=$((numContainers - 1))
+# numContainers=$(docker ps | wc -l)
+# numContainers=$((numContainers - 1))
 
 
 # if _=$(( numContainers > 0 ));

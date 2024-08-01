@@ -24,7 +24,7 @@ if [ -n "$DESKTOP_SESSION" ];then
 fi
 
 # use this AWS Profile most of the time
-export AWS_PROFILE=cdl-pad-prd
+# export AWS_PROFILE=cdl-pad-prd
 
 # aw, homebrew... you da best
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -81,7 +81,7 @@ alias dust='dust --reverse'
 export PYENV_ROOT="$HOME/.pyenv"
 
 # more aliases
-alias ecrlogin="export AWS_PROFILE=cdl-pad-dev && aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 866216109762.dkr.ecr.us-west-2.amazonaws.com"
+# alias ecrlogin="export AWS_PROFILE=cdl-pad-dev && aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 866216109762.dkr.ecr.us-west-2.amazonaws.com"
 alias record-alacritty='t-rec -w $(t-rec --ls-win | grep -i alacritty | awk "{print \$NF}")'
 
 # set up java, maven, and ant
@@ -107,9 +107,9 @@ path_front /usr/local/opt/icu4c/bin
 
 # openssl munging so MySQL works
 path_back /usr/local/opt/openssl@1.1/bin
-export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
-export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
+export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
+export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/opt/openssl@1.1/lib/
 
 # workspace(s) setup
 source ~/.shell/workspace.sh
@@ -187,7 +187,7 @@ fi
 
 
 # Martin's Fancy AWS Session stuff
-source ~/.shell/aws-session.sh
+# source ~/.shell/aws-session.sh
 
 # prompt setup
 PROMPT_DIRTRIM=2
@@ -332,15 +332,10 @@ alias gitpitch='docker run -it -v $(pwd):/repo -p 9000:9000 gitpitch/desktop:pro
 alias sync-ezid-plugin='rsync -avzSCH /Users/hpotting/workspace/janeway/src/plugins/ezid/. /Users/hpotting/workspace/EarthArXiv/plugins/ezid/'
 alias sync-GP-theme='rsync -avzSCH /Users/hpotting/workspace/janeway/src/themes/GP/. /Users/hpotting/workspace/GP/'
 
-
+# set up nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# set up nvm
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # fix the accessibility bus warnings
 export NO_AT_BRIDGE=1
@@ -360,15 +355,15 @@ $HOME/bin/days_until.py /Users/hpotting/.event_list.txt
 # check whether our AWS credentials are stale and gently warn us about it
 # (aws sts get-caller-identity > /dev/null) && echo -e "\e[01;32m❱❱❱ AWS credentials are current, good for you!\e[0m" || echo -e "\e[01;31m❱❱❱ AWS credentials are STALE, you should get on that soon: \e[32maws sso login\e[0m"
 # (aws sts get-caller-identity > /dev/null) && echo -e "\[\e[01;32m\]❱❱❱ AWS credentials are current, good for you!\[\e[0m\]" || echo -e "\[\e[01;31m\]❱❱❱ AWS credentials are STALE, you should get on that soon: \[\e[32m\]aws sso login\[\e[0m\]"
-if nc -zw1 google.com 443 >/dev/null 2>&1; then
-    if aws sts get-caller-identity > /dev/null 2>&1; then
-        echo -e "$(tput setaf 2)❱❱❱ AWS credentials are current, good for you!$(tput sgr0)"
-    else
-        echo -e "$(tput setaf 1)❱❱❱ AWS credentials are STALE, you should get on that soon: $(tput setaf 2)aws sso login$(tput sgr0)"
-    fi
-else
-    echo -e "$(tput setaf 57)❱❱❱ No network, you should jack in! ;-) Skipping AWS credential check...$(tput sgr0)"
-fi
+# if nc -zw1 google.com 443 >/dev/null 2>&1; then
+#     if aws sts get-caller-identity > /dev/null 2>&1; then
+#         echo -e "$(tput setaf 2)❱❱❱ AWS credentials are current, good for you!$(tput sgr0)"
+#     else
+#         echo -e "$(tput setaf 1)❱❱❱ AWS credentials are STALE, you should get on that soon: $(tput setaf 2)aws sso login$(tput sgr0)"
+#     fi
+# else
+#     echo -e "$(tput setaf 57)❱❱❱ No network, you should jack in! ;-) Skipping AWS credential check...$(tput sgr0)"
+# fi
 
 
 # ezid testing environment variables
@@ -409,7 +404,7 @@ export MIN_COMMIT_MSG_LENGTH="240"
 # export SENTIMENT_THRESHOLD="0.01" # probably don't need to tinker with this
 
 ### if we've just started up the computer (time limit 60 minutes), we might be interested in the weather forecast
-[[ $(( $(date +%s) - $(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',') )) -lt 3600 ]] && $HOME/.cargo/bin/wthrr
+[[ $(( $(date +%s) - $(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',') )) -lt 3600 ]] && $HOME/.cargo/bin/wthrr | grep -v friend
 # [[ $(( $(date +%s) - $(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',') )) -lt 3600 ]] && curl 'wttr.in/kcou?uqTF'
 
 ### set my hostname to EDGECASE if it isn't already EDGECASE
@@ -422,7 +417,12 @@ export MIN_COMMIT_MSG_LENGTH="240"
 # and they win any fights with homebrew paths
 
 # if we have rbenv, let's use it
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# but chruby is better
+source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
+source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
+chruby ruby-3.3.4
 
 # and lets' use jenv, too
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
@@ -436,9 +436,9 @@ export PGPASSFILE="$HOME/.pgpass"
 # direnv is nice, and it requests to go last, so... here it is
 eval "$(direnv hook bash)"
 
-source /Users/hpotting/.config/broot/launcher/bash/br
+# source /Users/hpotting/.config/broot/launcher/bash/br
 
-source ~/.pyenv/versions/3.11.5/bin/virtualenvwrapper.sh
+# source ~/.pyenv/versions/3.11.5/bin/virtualenvwrapper.sh
 
 # Lando
 export PATH="/Users/hpotting/.lando/bin${PATH+:$PATH}"; #landopath

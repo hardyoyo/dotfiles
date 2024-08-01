@@ -1,0 +1,52 @@
+[colors]
+
+[colors.bright]
+black = "#777777"
+blue = "#007ACC"
+cyan = "#00AACB"
+green = "#60CB00"
+magenta = "#E64CE6"
+red = "#F05050"
+white = "#FFFFFF"
+yellow = "#FFBC5D"
+
+[colors.cursor]
+cursor = "#000000"
+text = "#448C27"
+
+[colors.normal]
+black = "#000000"
+blue = "#325CC0"
+cyan = "#0083B2"
+green = "#448C27"
+magenta = "#7A3E9D"
+red = "#AA3731"
+white = "#BBBBBB"
+yellow = "#CB9000"
+
+[colors.primary]
+background = "#F7F7F7"
+foreground = "#000000"
+
+[bell]
+duration = 0
+
+[env]
+LANG = "en_US.UTF-8"
+LC_CTYPE = "en_US.UTF-8"
+TERM = "xterm"
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "ComicShannsMono Nerd Font Mono"
+style = "Regular"
+
+[window]
+startup_mode = "Maximized"
+title = "Edgecase ☆ﾟ°˖* ᕕ( ᐛ )ᕗ"
+
+[window.padding]
+x = 5
+y = 5

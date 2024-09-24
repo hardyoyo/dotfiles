@@ -1,3 +1,19 @@
+# SOURCES
+# https://starship.rs/config
+# https://starship.rs/presets/nerd-font.html#configuration
+
+# DEBUG via:
+# starship explain
+# STARSHIP_LOG=trace
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Timeout for commands executed by starship (ms)
+command_timeout = 1000
+
+# newline between commands
+add_newline = true
+
 [username]
 style_user = 'black bold'
 style_root = 'red bold'
@@ -15,6 +31,11 @@ disabled = false
 success_symbol = '[＄](bold green)'
 # success_symbol = '[💲](bold green)'
 error_symbol = '[✗](bold red)'
+
+[custom.vpn]
+command = "echo  \" 🔒 \" "
+when = "/Users/hpottinger/bin/vpn-status.sh"
+format = '\[[$output]($style)\]'
 
 [directory]
 fish_style_pwd_dir_length=1

@@ -1,5 +1,5 @@
 [user]
-	email = hardy.pottinger@gmail.com
+	email = hardy.pottinger@ucsf.edu
 	name = Hardy Pottinger
 [pull]
     rebase = true
@@ -62,7 +62,10 @@
 	keepbackups = false
 	tool = kdiff3
 [credential]
-	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+	credentialStore = keychain
+	helper = git-credential-manager
+	helper = 
+	helper = /usr/local/bin/git-credential-manager
 [difftool]
     prompt = false
 [difftool "meld"]
@@ -105,3 +108,10 @@
 	log = riff
 [interactive]
 	diffFilter = riff
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[credential "https://dev.azure.com"]
+	useHttpPath = true

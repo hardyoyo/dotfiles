@@ -59,6 +59,8 @@ is_ip_in_cidr() {
 # List of CIDR ranges
 CIDR_LIST=(
     "128.218.0.0/16"
+    "64.54.0.0/16"
+    "169.230.0.0/16"
 )
 
 # Get current IP

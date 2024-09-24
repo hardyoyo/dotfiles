@@ -16,3 +16,5 @@
 
 
 # WARNING don't let homebrew install a config in .bash_profile, it will make path stuff really confusing in .bashrc
+
+source /Users/hpottinger/.config/broot/launcher/bash/br

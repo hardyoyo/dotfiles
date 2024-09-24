@@ -1,6 +1,6 @@
 # Private function used by session() to maintain a cache of profile+instName -> instId
 function __build-inst-cache() {
-    local cacheDir=~/.aws/cdl-inst-cache
+    local cacheDir=~/.aws/my-inst-cache
     echo "Refreshing ec2 instance id cache." >&2
     if [ ! -f ~/.aws/config ]; then echo "Error: ~/.aws/config not found" >&2; return 1; fi
     local profiles=$(egrep '\[profile' ~/.aws/config | awk '{print $2}' | sed 's/\]//')
@@ -19,18 +19,18 @@ function __build-inst-cache() {
 # Usage e.g. `session pub-aws2-ops`
 function session() {
     local instName=$1
-    local cacheDir=~/.aws/cdl-inst-cache
+    local cacheDir=~/.aws/my-inst-cache
     local chk=$(egrep -H "$instName" $cacheDir/* 2>/dev/null)
     if [ "$chk" == "" ]; then 
         __build-inst-cache
         chk=$(egrep -H "$instName" $cacheDir/* 2>/dev/null)
         if [ "$chk" == "" ]; then echo "Error: instance '$instName' not found." >&2; return 1; fi
     fi
-    local params=$(echo $chk | head -1 | sed 's/ .*//' | sed 's/^.*cdl-inst-cache./--profile /' | sed 's/:i-/ --target=i-/')
+    local params=$(echo $chk | head -1 | sed 's/ .*//' | sed 's/^.*my-inst-cache./--profile /' | sed 's/:i-/ --target=i-/')
     local cmd="aws ssm start-session $params"
     echo $cmd >&2
     $cmd
     stty sane; tput cnorm  # fix terminal if session times out
 }
 
-complete -W "$(cut -f2 ~/.aws/cdl-inst-cache/*)" session
+complete -W "$(cut -f2 ~/.aws/my-inst-cache/*)" session

@@ -1,0 +1,189 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+pattern='TODO|FIXME'
+files=("$@")
+
+includes=(
+  "*.js"
+  "*.py"
+  "*.sh"
+  "*.ts"
+  "*.go"
+  "*.rb"
+  "*.java"
+)
+
+excludes=(
+  node_modules
+  .git
+  cache
+  .cache
+  vendor
+  venv
+  env
+  .venv
+  dist
+  build
+  .next
+  .nuxt
+  out
+  .pytest_cache
+  __pycache__
+  .tox
+)
+
+print_heading() {
+  printf "\n=== %s ===\n" "$1"
+}
+
+build_grep_args() {
+  local args=()
+
+  for i in "${includes[@]}"; do
+    args+=(--include="$i")
+  done
+
+  for e in "${excludes[@]}"; do
+    args+=(--exclude-dir="$e")
+  done
+
+  printf '%s\n' "${args[@]}"
+}
+
+extract_quick_reference() {
+  awk '
+    /^## Project Quick Reference/ {
+      in_section=1
+      next
+    }
+
+    /^## / && in_section {
+      exit
+    }
+
+    in_section {
+      print
+    }
+  ' CLAUDE.md
+}
+
+extract_readme_intro() {
+  awk '
+    /^## / {
+      exit
+    }
+
+    {
+      print
+    }
+  ' "$1"
+}
+
+print_project_orientation() {
+  local content
+
+  if [ -f CLAUDE.md ]; then
+    content="$(extract_quick_reference)"
+
+    if [ -n "$content" ]; then
+      print_heading "Project Orientation"
+      printf "%s\n" "$content" | sed -n '1,40p'
+      return 0
+    fi
+  fi
+
+  for f in README.md README README.txt; do
+    if [ -f "$f" ]; then
+      print_heading "Project Orientation"
+      extract_readme_intro "$f" | sed -n '1,40p'
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+search_files() {
+  local grep_args=()
+
+  while IFS= read -r line; do
+    grep_args+=("$line")
+  done < <(build_grep_args)
+
+  if [ "${#files[@]}" -gt 0 ]; then
+    grep -HnEi "$pattern" "${files[@]}" 2>/dev/null || true
+  else
+    grep -rHnEi \
+      "${grep_args[@]}" \
+      "$pattern" \
+      . \
+      2>/dev/null || true
+  fi
+}
+
+print_project_files() {
+  local printed=0
+
+  for f in NOTES TODO TODO.md; do
+    if [ -f "$f" ]; then
+      if (( ! printed )); then
+        print_heading "Project Files"
+        printed=1
+      fi
+
+      printf "\n--- %s ---\n" "$f"
+      cat "$f"
+    fi
+  done
+
+  if (( ! printed )); then
+    return 1
+  fi
+}
+
+print_missing_summary() {
+  local first=1
+
+  printf "\n("
+
+  for msg in "$@"; do
+    if (( first )); then
+      printf "%s" "$msg"
+      first=0
+    else
+      printf ", %s" "$msg"
+    fi
+  done
+
+  printf ")\n"
+}
+
+# ---- main ----
+
+missing=()
+
+# Project orientation (optional)
+print_project_orientation || true
+
+# TODO/FIXME section
+todo_output="$(search_files)"
+
+if [ -n "$todo_output" ]; then
+  print_heading "TODO/FIXME Comments"
+  printf "%s\n" "$todo_output"
+else
+  missing+=("no TODO/FIXME comments found")
+fi
+
+# Project files section
+if ! print_project_files; then
+  missing+=("no Project Files found")
+fi
+
+# Missing summary
+if [ "${#missing[@]}" -gt 0 ]; then
+  print_missing_summary "${missing[@]}"
+fi
+
+exit 0

@@ -34,6 +34,7 @@ src/core/hardy_settings.py
 # dev workspace conventions
 content
 .env
+.envrc
 
 # local/Lando-DSpace configs should be opt-in
 # NOTE: if you add more configs here, you'll need to git rm --cached name-of-file.ext, then git add name-of-file.ext, in order to get git to stop tracking the file for changes
@@ -131,3 +132,6 @@ local-docker-compose.yml
 
 # I dunno why DSpace isn't already ignoring these
 dspace/modules/*/bin/
+
+# Claude stuff
+.claude/settings.local.json

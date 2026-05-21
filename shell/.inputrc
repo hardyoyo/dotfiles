@@ -13,3 +13,4 @@ set show-all-if-unmodified on
 "\e[B": history-search-forward
 "\e[C": forward-char
 "\e[D": backward-char
+

@@ -10,6 +10,7 @@
 	editor = vim
 	trustctime = false
 	quotepath = off
+	pager = bat
 [alias]
 	a = add
 	b = branch
@@ -41,6 +42,7 @@
 	sub = submodule
 	y = cherry-pick
     cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+	aliases = config --get-regexp ^alias\\.
 [am]
 	threeWay = true
 [apply]
@@ -65,7 +67,7 @@
 	credentialStore = keychain
 	helper = git-credential-manager
 	helper = 
-	helper = /usr/local/bin/git-credential-manager
+	helper = /usr/local/share/gcm-core/git-credential-manager
 [difftool]
     prompt = false
 [difftool "meld"]
@@ -79,9 +81,10 @@
 	trustExitCode = true
 	keepBackup = false
 [http]
-    sslVerify = false
+	sslVerify = true
 [push]
 	default = current
+	autoSetupRemote = true
 [rebase]
 	stat = true
 	autoSquash = true
@@ -103,15 +106,21 @@
 [mergetool "kdiff3"]
 	path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
 [pager]
-	diff = riff
-	show = riff
-	log = riff
+	diff = riff --no-pager
+	show = riff --no-pager
+	log = riff --no-pager
 [interactive]
-	diffFilter = riff
+	diffFilter = riff --no-pager
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[credential "https://git.ucsf.edu"]
+	provider = github
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://git-stage.ucsf.edu"]
+	provider = github
 [credential "https://dev.azure.com"]
 	useHttpPath = true

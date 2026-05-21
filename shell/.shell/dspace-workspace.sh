@@ -4,11 +4,21 @@ export DSWORKSPACE="$HOME/dspace-workspace"
 
 # add a hooray to docker-compose
 docker-compose() {
-    local cmd="docker compose $@"
+    local cmd="docker-compose $@"
     if command $cmd; then
         osascript -e "display notification \"${cmd}\" with title \"Docker-Compose Done\" sound name \"cheers\""
     else
         osascript -e "display notification \"${cmd}\" with title \"Docker-Compose Failed\" sound name \"Sosumi\""
+    fi
+}
+
+# same for docker
+docker() {
+    local cmd="docker $@"
+    if command $cmd; then
+        osascript -e "display notification \"${cmd}\" with title \"Docker Done\" sound name \"cheers\""
+    else
+        osascript -e "display notification \"${cmd}\" with title \"Docker Failed\" sound name \"Sosumi\""
     fi
 }
 

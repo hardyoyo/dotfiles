@@ -9,7 +9,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Timeout for commands executed by starship (ms)
-command_timeout = 2000
+command_timeout = 8000
 
 # newline between commands
 add_newline = true
@@ -28,8 +28,9 @@ trim_at = '.escholarship.org'
 disabled = false
 
 [character]
-success_symbol = '[＄](bold green)'
+# success_symbol = '[＄](bold green)'
 # success_symbol = '[💲](bold green)'
+success_symbol = '[﹩](bold green)'
 error_symbol = '[✗](bold red)'
 
 [custom.vpn]
@@ -201,6 +202,7 @@ format = '\[[$symbol($version-$vm_version)]($style)\]'
 format = '\[[$symbol($version)]($style)\]'
 
 [ruby]
+disabled = true
 format = '\[[$symbol($version)]($style)\]'
 
 [rust]

@@ -4,7 +4,7 @@
 sleep 2
 
 # play a sound
-afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/Swish.caf
+afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/Classic/Swish.m4r
 
 # send a notification to confirm which audio source is set
 CURRENT_INPUT=$(SwitchAudioSource -c -t input)

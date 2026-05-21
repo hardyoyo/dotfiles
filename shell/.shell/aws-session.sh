@@ -3,8 +3,17 @@ function __build-inst-cache() {
     local cacheDir=~/.aws/my-inst-cache
     echo "Refreshing ec2 instance id cache." >&2
     if [ ! -f ~/.aws/config ]; then echo "Error: ~/.aws/config not found" >&2; return 1; fi
-    local profiles=$(egrep '\[profile' ~/.aws/config | awk '{print $2}' | sed 's/\]//')
-    if [ "$profiles" == "" ]; then echo "Error: no profiles found in ~/.aws/config" >&2; return 1; fi
+    # local profiles=$(egrep '\[profile' ~/.aws/config | awk '{print $2}' | sed 's/\]//')
+    # if [ "$profiles" == "" ]; then echo "Error: no profiles found in ~/.aws/config" >&2; return 1; fi
+
+    # Use default if that's all we've got, otherwise grab all the profiles
+    if grep -q '\[default\]' ~/.aws/config && ! grep -q '\[profile' ~/.aws/config; then
+        profiles="default"
+    else
+        local profiles=$(egrep '\[profile' ~/.aws/config | awk '{print $2}' | sed 's/\]//')
+        if [ "$profiles" == "" ]; then echo "Error: no profiles found in ~/.aws/config" >&2; return 1; fi
+    fi
+
     mkdir -p $cacheDir; rm -f $cacheDir/*
     set +m  # disable job control messages
     for profile in $profiles; do

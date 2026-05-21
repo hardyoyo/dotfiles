@@ -18,3 +18,7 @@
 # WARNING don't let homebrew install a config in .bash_profile, it will make path stuff really confusing in .bashrc
 
 source /Users/hpottinger/.config/broot/launcher/bash/br
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

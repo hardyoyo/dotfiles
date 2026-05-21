@@ -31,6 +31,10 @@
 "   ai: operate on all text plus one line up at current indent level
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" fix a weird syntastic display glitch
+set t_u7=
+
+
 " long live vim
 set encoding=utf-8
 set nocompatible

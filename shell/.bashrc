@@ -1,10 +1,15 @@
 # this file is sourced by non-login interactive shells and ~/.bash_profile
 
 # set the umask to something reasonable
-/usr/bin/umask 002
+umask 002
 
-# let's use a visible bell
-set bell-style visible
+# function to determine whether we've booted recently
+recent_boot() {
+    local boot_age
+    boot_age=$(( $(date +%s) - $(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',') ))
+    [[ "$boot_age" -lt 3600 ]]
+}
+
 
 # aw, homebrew, you da best
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -190,19 +195,49 @@ if [ -f ~/.bash_completion.d/starship.bash ]; then
       . ~/.bash_completion.d/starship.bash
 fi
 
+############################################# BEGIN INTERACTIVE SHELL STUFF ####
 # only do these if we are in an interactive shell
-if [[ $- == *i* ]]; then
+if [[ -t 0 && -t 1 ]]; then
 
     # Martin's Fancy AWS Session stuff
     source ~/.shell/aws-session.sh
 
     ### if we've just started up the computer (time limit 60 minutes), we might be interested in the weather forecast
-    [[ $(( $(date +%s) - $(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',') )) -lt 3600 ]] && $HOME/.cargo/bin/wthrr | grep -v friend && $HOME/bin/todays-events.sh
+    # [[ $(( $(date +%s) - $(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',') )) -lt 3600 ]] && $HOME/.cargo/bin/wthrr | grep -v friend && $HOME/bin/todays-events.sh
+    WEATHER_CACHE="$HOME/.cache/wthrr.txt"
 
-    # can't wait!
-    $HOME/bin/days_until.py /Users/hpotting/.event_list.txt
+    if recent_boot; then
+        if [[ -f "$WEATHER_CACHE" ]]; then
+            cat "$WEATHER_CACHE"
+        fi
 
+        (
+            WEATHER_OUTPUT="$(gtimeout 8 "$HOME/.cargo/bin/wthrr" 2>/dev/null | grep -v friend)"
+
+            if [[ -n "$WEATHER_OUTPUT" ]]; then
+                {
+                    printf '[weather updated %s]\n' "$(date)"
+                    printf '%s\n' "$WEATHER_OUTPUT"
+                } > "$WEATHER_CACHE.tmp"
+
+                mv "$WEATHER_CACHE.tmp" "$WEATHER_CACHE"
+
+                echo
+                cat "$WEATHER_CACHE"
+                echo
+            fi
+        ) & disown
+
+        # what's happening today?
+        $HOME/bin/todays-events.sh
+
+        # can't wait!
+        $HOME/bin/days_until.py /Users/hpottinger/.event_list.txt
+
+    fi
 fi
+
+############################################### END INTERACTIVE SHELL STUFF ####
 
 # prompt setup
 PROMPT_DIRTRIM=2
@@ -266,8 +301,8 @@ alias landonuke='lando destroy -y && lando rebuild -y'
 # run the gitpitch desktop docker image, with the current folder mounted for slides
 alias gitpitch='docker run -it -v $(pwd):/repo -p 9000:9000 gitpitch/desktop:pro'
 
-alias sync-ezid-plugin='rsync -avzSCH /Users/hpotting/workspace/janeway/src/plugins/ezid/. /Users/hpotting/workspace/EarthArXiv/plugins/ezid/'
-alias sync-GP-theme='rsync -avzSCH /Users/hpotting/workspace/janeway/src/themes/GP/. /Users/hpotting/workspace/GP/'
+alias sync-ezid-plugin='rsync -avzSCH /Users/hpottinger/workspace/janeway/src/plugins/ezid/. /Users/hpottinger/workspace/EarthArXiv/plugins/ezid/'
+alias sync-GP-theme='rsync -avzSCH /Users/hpottinger/workspace/janeway/src/themes/GP/. /Users/hpottinger/workspace/GP/'
 
 # set up nvm
 export NVM_DIR="$HOME/.nvm"
@@ -288,7 +323,7 @@ if [[ -z "$AWS_CHECK_DONE" ]]; then
     # add some goober-y caching
     export AWS_CHECK_DONE=1
     # only warn us about AWS login state if we're in an interactive shell
-    if [[ $- == *i* ]]; then
+    if [[ -t 0 && -t 1 ]]; then
         # check whether our AWS credentials are stale and gently warn us about it, but run this in the background
         {
           if nc -zw1 google.com 443 >/dev/null 2>&1; then

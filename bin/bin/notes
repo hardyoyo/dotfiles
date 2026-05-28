@@ -4,51 +4,8 @@ set -euo pipefail
 pattern='TODO|FIXME'
 files=("$@")
 
-includes=(
-  "*.js"
-  "*.py"
-  "*.sh"
-  "*.ts"
-  "*.go"
-  "*.rb"
-  "*.java"
-)
-
-excludes=(
-  node_modules
-  .git
-  cache
-  .cache
-  vendor
-  venv
-  env
-  .venv
-  dist
-  build
-  .next
-  .nuxt
-  out
-  .pytest_cache
-  __pycache__
-  .tox
-)
-
 print_heading() {
   printf "\n=== %s ===\n" "$1"
-}
-
-build_grep_args() {
-  local args=()
-
-  for i in "${includes[@]}"; do
-    args+=(--include="$i")
-  done
-
-  for e in "${excludes[@]}"; do
-    args+=(--exclude-dir="$e")
-  done
-
-  printf '%s\n' "${args[@]}"
 }
 
 extract_quick_reference() {
@@ -105,21 +62,66 @@ print_project_orientation() {
 }
 
 search_files() {
-  local grep_args=()
+  local rg_args=(
+    --line-number
+    --with-filename
+    --ignore-case
+    --color=never
+    --max-filesize=1M
 
-  while IFS= read -r line; do
-    grep_args+=("$line")
-  done < <(build_grep_args)
+    -g '!*.mp4'
+    -g '!*.mov'
+    -g '!*.avi'
+    -g '!*.mkv'
+    -g '!*.webm'
+
+    -g '!*.gif'
+    -g '!*.png'
+    -g '!*.jpg'
+    -g '!*.jpeg'
+    -g '!*.webp'
+    -g '!*.svg'
+
+    -g '!*.pdf'
+
+    -g '!*.zip'
+    -g '!*.tar'
+    -g '!*.gz'
+    -g '!*.tgz'
+
+    -g '!*.mp3'
+    -g '!*.wav'
+    -g '!*.flac'
+
+    -tpy
+    -tjs
+    -tsh
+    -tts
+    -tgo
+    -truby
+    -tjava
+  )
+
+  local rg_pid
+
+  printf "Scanning source files for TODO/FIXME comments" >&2
 
   if [ "${#files[@]}" -gt 0 ]; then
-    grep -HnEi "$pattern" "${files[@]}" 2>/dev/null || true
+    rg "${rg_args[@]}" "$pattern" "${files[@]}" &
   else
-    grep -rHnEi \
-      "${grep_args[@]}" \
-      "$pattern" \
-      . \
-      2>/dev/null || true
+    rg "${rg_args[@]}" "$pattern" . &
   fi
+
+  rg_pid=$!
+
+  while kill -0 "$rg_pid" 2>/dev/null; do
+    printf "." >&2
+    sleep 1
+  done
+
+  printf "\n" >&2
+
+  wait "$rg_pid"
 }
 
 print_project_files() {
@@ -161,20 +163,19 @@ print_missing_summary() {
 
 # ---- main ----
 
+start_time=$SECONDS
+
 missing=()
+
+# TODO/FIXME section first for faster visible feedback
+print_heading "TODO/FIXME Comments"
+
+if ! search_files; then
+  missing+=("no TODO/FIXME comments found")
+fi
 
 # Project orientation (optional)
 print_project_orientation || true
-
-# TODO/FIXME section
-todo_output="$(search_files)"
-
-if [ -n "$todo_output" ]; then
-  print_heading "TODO/FIXME Comments"
-  printf "%s\n" "$todo_output"
-else
-  missing+=("no TODO/FIXME comments found")
-fi
 
 # Project files section
 if ! print_project_files; then
@@ -185,5 +186,7 @@ fi
 if [ "${#missing[@]}" -gt 0 ]; then
   print_missing_summary "${missing[@]}"
 fi
+
+printf "\nCompleted in %ss\n" "$((SECONDS - start_time))"
 
 exit 0

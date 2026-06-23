@@ -418,3 +418,16 @@ export OBSIDIAN_PORT=27123
 # OK, we get it, PyEnv, you want to be set up right... but you are... mostly
 export PYENV_SILENCE_WARNING=1
 
+
+# peon-ping quick controls
+alias peon="bash /Users/hpottinger/.claude/hooks/peon-ping/peon.sh"
+[ -f /Users/hpottinger/.claude/hooks/peon-ping/completions.bash ] && source /Users/hpottinger/.claude/hooks/peon-ping/completions.bash
+
+# opencode
+# export PATH=/Users/hpottinger/.opencode/bin:$PATH
+
+# zagi - a better git for agents
+export ZAGI_GUARDRAILS=1
+export ZAGI_STRIP_COAUTHORS=1
+alias git='/Users/hpottinger/.local/bin/zagi'
+

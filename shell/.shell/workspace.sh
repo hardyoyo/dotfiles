@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # my own custom workspace function
 
 export WORKSPACE="$HOME/workspace"
@@ -39,6 +40,84 @@ function _ws_gfold {
     }'
 }
 
+# helper: find any Claude sessions
+function _ws_claude_sessions {
+    local project_dir
+    local session_count
+    local newest_session
+    local age_seconds
+    local last_activity
+    local last_prompt
+    local status
+
+    project_dir="$HOME/.claude/projects/${PWD//\//-}"
+
+    [[ -d "$project_dir" ]] || return 0
+
+    shopt -s nullglob
+    local sessions=( "$project_dir"/*.jsonl )
+    shopt -u nullglob
+
+    session_count=${#sessions[@]}
+    [[ "$session_count" -gt 0 ]] || return 0
+
+    newest_session=$(
+    find "$project_dir" -maxdepth 1 -type f -name '*.jsonl' \
+        -exec stat -f '%m %N' {} \; |
+        sort -nr |
+        head -1 |
+        cut -d' ' -f2-
+)
+
+    age_seconds=$(( $(date +%s) - $(stat -f '%m' "$newest_session") ))
+
+    if (( age_seconds < 3600 )); then
+        last_activity="$(( age_seconds / 60 ))m ago"
+    elif (( age_seconds < 86400 )); then
+        last_activity="$(( age_seconds / 3600 ))h ago"
+    else
+        last_activity="$(( age_seconds / 86400 ))d ago"
+    fi
+
+    last_prompt=$(
+        jq -r '
+            select(.type == "last-prompt")
+            | .lastPrompt
+        ' "$newest_session" 2>/dev/null | tail -1
+    )
+
+    [[ "$last_prompt" == "null" ]] && last_prompt=""
+
+    if [[ ${#last_prompt} -gt 60 ]]; then
+        last_prompt="${last_prompt:0:57}..."
+    fi
+
+    if tail -20 "$newest_session" |
+        jq -e '
+            select(.type == "system")
+            | select(.subtype == "turn_duration")
+        ' >/dev/null 2>&1
+    then
+        status="✅ cleanly exited"
+    else
+        status="🚧 possibly interrupted"
+    fi
+
+    _ws_header " C L A U D E"
+
+    printf "Claude sessions: %s\n" "$session_count"
+    printf "Last activity: %s\n" "$last_activity"
+
+    if [[ -n "$last_prompt" ]]; then
+        printf "Last prompt: %s\n" "$last_prompt"
+    fi
+
+    printf "Status: %s\n" "$status"
+    printf "Resume with: \033[1mclaude --continue\033[0m\n"
+    echo
+}
+
+
 # workspace function
 function ws {
     cd "$HOME/workspace/$1" || return 1
@@ -77,7 +156,9 @@ function ws {
         fi
         echo
 
-        echo "Hint: be sure you're working with the most recent changes:"
+        _ws_claude_sessions
+
+        _ws_header " Hint: be sure you're working with the most recent changes..."
         echo "git fetch --all"
         echo "git checkout main #may have to git stash first"
         echo "git pull upstream main"

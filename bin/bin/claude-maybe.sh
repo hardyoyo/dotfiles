@@ -6,6 +6,8 @@ if ! aws sts get-caller-identity >/dev/null 2>&1; then
   return 1 2>/dev/null || exit 1
 fi
 
+export CLAUDE_PATH="/Users/hpottinger/.local/bin/claude"
+
 # load creds
 eval "$(aws configure export-credentials --profile bedrock --format env)"
 
@@ -23,15 +25,17 @@ export DISABLE_PROMPT_CACHING=0
 export ANTHROPIC_MODEL="sonnet"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="us.anthropic.claude-sonnet-4-6"
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="us.anthropic.claude-haiku-4-5-20251001-v1:0"
-export ANTHROPIC_DEFAULT_OPUS_MODEL="us.anthropic.claude-opus-4-6-v1"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="us.anthropic.claude-opus-4-8"
 
 # use HAIKU for the subagent
 export ANTHROPIC_SMALL_FAST_MODEL="haiku"
 export CLAUDE_CODE_SUBAGENT_MODEL="us.anthropic.claude-haiku-4-5-20251001-v1:0"
 
-# start in planning mode
-
-
-exec command claude "$@"
-
-exit 0
+# if no options given, we default to plan mode with opusplan as the model
+if [[ $# -eq 0 ]]; then
+  exec command claude \
+    --permission-mode plan \
+    --model opusplan
+else
+  exec command $CLAUDE_PATH "$@"
+fi

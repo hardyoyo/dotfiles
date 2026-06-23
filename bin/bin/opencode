@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if ! aws sts get-caller-identity >/dev/null 2>&1; then
+  echo "⚠️  AWS SSO not ready (run: aws sso login)"
+  exit 1
+fi
+
+# this trips OpenCode up, it only wants this or the AWS profile
+eval "$(aws configure export-credentials --profile bedrock --format env)"
+
+# export AWS_PROFILE=bedrock
+export AWS_REGION=us-west-2
+
+# this might be important
+export ANTHROPIC_BEDROCK_BASE_URL="https://unified-api.ucsf.edu/general/awsai"
+
+exec /Users/hpottinger/.opencode/bin/opencode "$@"

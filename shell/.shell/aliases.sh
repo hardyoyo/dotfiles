@@ -166,3 +166,24 @@ help: ## Show help
 EOF
   echo "Created Makefile with help target"
 }
+
+# defang some commands that agents like to run
+kubectl() {
+    safeguard-cmd.sh kubectl "$@"
+}
+
+aws() {
+    safeguard-cmd.sh aws "$@"
+}
+
+kubectl() {
+    safeguard-cmd.sh kubectl "$@"
+}
+
+terraform() {
+    safeguard-cmd.sh terraform "$@"
+}
+
+helm() {
+    safeguard-cmd.sh helm "$@"
+}

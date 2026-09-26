@@ -45,7 +45,7 @@ echo
 echo "Enter 'y' or 'yes' within ${TIMEOUT_SECONDS} seconds to allow."
 echo
 
-if ! read -r -t "${TIMEOUT_SECONDS}" -p "Proceed? [y/N] " response; then
+if ! read -r -t "${TIMEOUT_SECONDS}" -p "Proceed? [Y/n] " response; then
     echo
     echo
     echo "Request timed out after ${TIMEOUT_SECONDS} seconds."
@@ -56,12 +56,12 @@ fi
 echo
 
 case "${response}" in
-    y|Y|yes|YES|Yes)
-        echo "Execution approved."
-        exec "$cmd" "$@"
-        ;;
-    *)
+    n|N|no|NO|No)
         echo "Execution denied."
         exit 1
+        ;;
+    *)
+        echo "Execution approved."
+        exec "$cmd" "$@"
         ;;
 esac

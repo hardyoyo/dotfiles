@@ -17,7 +17,7 @@ function __build-inst-cache() {
     mkdir -p $cacheDir; rm -f $cacheDir/*
     set +m  # disable job control messages
     for profile in $profiles; do
-        { aws --profile $profile ec2 describe-instances --output text \
+        { /usr/local/bin/aws --profile $profile ec2 describe-instances --output text \
             --query 'Reservations[*].Instances[*].[InstanceId, Tags[?Key == `Name`] | [0].Value]' \
             >> $cacheDir/$profile & } 2>/dev/null
     done
@@ -36,10 +36,13 @@ function session() {
         if [ "$chk" == "" ]; then echo "Error: instance '$instName' not found." >&2; return 1; fi
     fi
     local params=$(echo $chk | head -1 | sed 's/ .*//' | sed 's/^.*my-inst-cache./--profile /' | sed 's/:i-/ --target=i-/')
-    local cmd="aws ssm start-session $params"
+    local cmd="/usr/local/bin/aws ssm start-session $params"
     echo $cmd >&2
     $cmd
     stty sane; tput cnorm  # fix terminal if session times out
 }
 
-complete -W "$(cut -f2 ~/.aws/my-inst-cache/*)" session
+_session_complete() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=($(compgen -W "$(cut -f2 ~/.aws/my-inst-cache/* 2>/dev/null | sort -u)" -- "$cur"))
+}

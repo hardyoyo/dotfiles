@@ -7,7 +7,6 @@ then
     # power
     alias shutdown='sudo shutdown -h now'
     alias reboot='sudo reboot now'
-    alias sleep='shutdown -s now'
 
     # misc
     alias unlock_files='chflags -R nouchg *'
@@ -21,6 +20,9 @@ fi
 
 # Claude Code
 alias claude="$HOME/bin/claude-maybe.sh --permission-mode plan"
+
+# Codex
+alias codex="codex --model gpt-5.6-luna"
 
 # miscellaneous
 alias sudo='sudo ' # enable alias expansion for sudo
@@ -186,4 +188,8 @@ terraform() {
 
 helm() {
     safeguard-cmd.sh helm "$@"
+}
+
+mer() {
+    merman-cli render "$1" --format png -o - | viu -
 }

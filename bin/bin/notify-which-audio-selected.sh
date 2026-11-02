@@ -9,4 +9,5 @@ afplay /System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resour
 # send a notification to confirm which audio source is set
 CURRENT_INPUT=$(SwitchAudioSource -c -t input)
 CURRENT_OUTPUT=$(SwitchAudioSource -c -t output)
-terminal-notifier -title "Current Audio Settings" -subtitle "input: ${CURRENT_INPUT}" -message "output: ${CURRENT_OUTPUT}"
+HINTS=" • No sound? Try volume dial → Audio MIDI Setup → system_profiler SPAudioDataType"
+terminal-notifier -title "Current Audio Settings" -subtitle "input: ${CURRENT_INPUT}" -message "output: ${CURRENT_OUTPUT}${HINTS}"
